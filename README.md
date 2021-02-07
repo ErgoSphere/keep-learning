@@ -13,7 +13,11 @@
   
   2. xhr.js - axios封装 
     
-  3. database.js - indexedDB封装
+  3. 浏览器存储 
+    
+     + database.js - indexedDB封装
+     + cookie.js
+     + localStorage.js
     
   4. digitExchange.js - 数字转中文 
 
@@ -34,6 +38,9 @@
      + 深拷贝对象
     
   7. print.js - 通用打印模板 
+    
+  8. speech.js - 文字转语音 
+    
 
 - 组件
 
