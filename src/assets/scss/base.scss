@@ -1,0 +1,86 @@
+$green: #28a745;
+$light-green: #0eca9a;
+$teal: #20c997;
+$cyan: #209e91;
+$blue: #4285f4;
+$primary: #64b5f6;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$yellow: #ffc107;
+$orange: #FFA004;
+$pink: #c51162;
+$red: #dc3545;
+$gold: #e2dbd1;
+$brown: #3B1D1D;
+$black: #333;
+$silver: #656565;
+$border-color: #e2e2e2;
+
+$default-padding:8px;
+$border: 1px solid $border-color;
+
+%flex{
+	display: flex;
+	display: -webkit-flex;
+	display: -ms-flex;
+}
+%inline-flex{
+	display: inline-flex;
+	display: -webkit-inline-flex;
+}
+%flex-column{
+	flex-direction: column;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+}
+%flex-wrap{
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+}
+%justify-around{
+	justify-content: space-around;
+	-webkit-justify-content: space-around;
+}
+%justify-between{
+	justify-content: space-between;
+	-webkit-justify-content: space-between;
+}
+%justify-center{
+	justify-content: center;
+	-webkit-justify-content: center;
+}
+%justify-start{
+	justify-content: flex-start;
+	-webkit-justify-content: flex-start;
+}
+%justify-end{
+	justify-content: flex-end;
+	-webkit-justify-content: flex-end;
+}
+%align-end{
+	align-items: flex-end;
+	-webkit-align-items: flex-end;
+}
+%align-center{
+	align-items: center;
+	-webkit-align-items: center;
+}
+%align-start{
+	align-items: flex-start;
+	-webkit-align-items: flex-start;
+}
+%align-stretch {
+	align-items: stretch;
+	-webkit-align-items: stretch;
+}
+%image-set{
+	width: auto;
+	max-height: 100%;
+	max-width: 100%;
+	-ms-flex: 1;
+}
+%row-reverse{
+	flex-direction: row-reverse;
+}
+
