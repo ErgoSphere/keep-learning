@@ -1,3 +1,10 @@
+/**
+ * Created by ErgoSphere on 2021/2/7
+ *
+ * 常用函数
+ *
+ **/
+
 //禁用键盘
 export const keyboardDisabled = keyNum => {
   window.onkeydown = function(e) {
