@@ -35,3 +35,14 @@ export const isImage = str => {
   let reg = /\.(png|jpg|gif|jpeg|webp)$/;
   return reg.test(str);
 };
+//微软系浏览器检测
+export const msExplorerDetect = () => {
+  let userAgent = navigator.userAgent;
+  let isIE = window.ActiveXObject || "ActiveXObject" in window;
+  let isEdge = userAgent.indexOf("Edge") > -1;
+  return isIE || isEdge;
+};
+//随机生成颜色
+export const getRandomColor = function() {
+  return "hsb(" + Math.random() + ", 1, 1)";
+};
