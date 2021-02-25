@@ -26,6 +26,7 @@ module.exports = {
       },
       plugins: [
         new CompressionWebpackPlugin({
+          filename: "[path][base].gz",
           test: /\.(js|css)(\?.*)?$/i
         })
       ]
