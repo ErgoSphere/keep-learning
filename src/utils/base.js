@@ -83,3 +83,27 @@ export const copyText = (text = "") => {
     resolve();
   });
 };
+//区分中英文限制输入框输入文字长度
+//<input @input="limitLength" />
+export const limitLength = (e, ml) => {
+  const input = e.target;
+  const split = input.value.split("");
+  // 计算已输入的长度
+  const map = split.map((s, i) =>
+    input.value.charCodeAt(i) >= 0 && input.value.charCodeAt(i) <= 128 ? 1 : 2
+  );
+  // 这里设置想要限制的长度
+  const maxLength = ml;
+  let n = 0;
+  const charLength =
+    map.length > 0 &&
+    map.reduce((accumulator, currentValue, index) => {
+      if (accumulator === maxLength || accumulator === maxLength - 1) {
+        n = index;
+      }
+      return accumulator + currentValue;
+    });
+  if (charLength > maxLength) {
+    input.value = split.slice(0, n).join("");
+  }
+};
