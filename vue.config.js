@@ -26,8 +26,11 @@ module.exports = {
       },
       plugins: [
         new CompressionWebpackPlugin({
-          filename: "[path][base].gz",
-          test: /\.(js|css)(\?.*)?$/i
+          filename: "[path].gz[query]",
+          algorithm: "gzip",
+          threshold: 10240,
+          minRatio: 0.8,
+          test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i
         })
       ]
     };
