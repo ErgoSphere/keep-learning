@@ -1,7 +1,7 @@
 <template>
 <div class="sidebar-tree">
-  <template v-for="(item, i) in list" >
-    <tree-item :key="i" :tree-data="item" :font-size="20"></tree-item>
+  <template v-for="(item, i) in list" :key="i">
+    <tree-item :tree-data="item" :font-size="20"></tree-item>
   </template>
 </div>
 </template>

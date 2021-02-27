@@ -15,10 +15,9 @@
       <template v-else>--</template>
     </div>
     <div class="sub-tree" v-if="treeData.children && treeData.children.length">
-      <template v-for="(item, i) in treeData.children">
+      <template v-for="(item, i) in treeData.children" :key="i">
         <tree-item
           :tree-data="item"
-          :key="i"
           :font-size="fontSize - 2"
           :pre-link="modifyRoute"
         ></tree-item>
