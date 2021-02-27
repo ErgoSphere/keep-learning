@@ -2,12 +2,11 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { store } from "./store";
-import hljs from "highlight.js";
-import "highlight.js/scss/monokai-sublime.scss";
+import highlight from "@/utils/highlight";
 import "./assets/scss/common.scss";
 
-createApp(App)
-  .use(store)
+const vueApp = createApp(App)
+vueApp.use(store)
   .use(router)
-  .use(hljs.vuePlugin)
+  .use(highlight)
   .mount("#app");

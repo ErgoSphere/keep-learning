@@ -1,7 +1,7 @@
 <template>
 <div class="sidebar-tree">
-  <template v-for="(item, i) in list" :key="i">
-    <tree-item :tree-data="item" :font-size="20"></tree-item>
+  <template v-for="(item, i1) in list" :key="i1">
+    <tree-item :tree-data="item" :font-size="18"></tree-item>
   </template>
 </div>
 </template>
@@ -19,7 +19,7 @@ export default {
 
   data () {
     return {
-      list: routes
+      list: routes[0].children
     }
   }
 };
@@ -27,9 +27,8 @@ export default {
 
 <style lang="scss">
 .sidebar-tree {
-  .sidebar-tree-item {
-    font-color: #2c3e50;
-
+  .sidebar-tree-item .tree-link-item{
+    font-color: #2c3e50 !important;
   }
   .tree-link-item {
     text-decoration: none;

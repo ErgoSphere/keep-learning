@@ -3,7 +3,7 @@
     <div
       :style="{
         'font-size': fontSize + 'px',
-        'padding-left': (20 - fontSize) * 8 + 'px'
+        'padding-left': (18 - fontSize) * 8 + 'px'
       }"
     >
       <router-link
@@ -49,7 +49,7 @@ export default {
   computed: {
     modifyRoute: function() {
       let td = this.treeData
-      return td.path.indexOf('/') > -1 ? td.path : (this.preLink + '/' + td.path)
+      return this.preLink ? this.preLink + '/' + td.path : td.path
     }
   }
 };

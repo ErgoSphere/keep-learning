@@ -32,7 +32,33 @@ export const routes = [
             }
           }
         ]
-      }
+      },
+      {
+        path: "/comprehensive",
+        name: "comprehensive",
+        component: () => import("../views/Comprehensive/Index"),
+        meta: {
+          headline: "Comprehensive"
+        },
+        children: [
+          {
+            path: "vue-migrating",
+            name: "vue-migrating",
+            component: () => import("../views/Comprehensive/VueMigrating"),
+            meta: {
+              headline: "Vue migrating"
+            }
+          },
+          {
+            path: "code-highlight",
+            name: "code-highlight",
+            component: () => import("../views/Comprehensive/CodeHighlight"),
+            meta: {
+              headline: "Code with highlight.js"
+            }
+          }
+        ]
+      },
     ]
   }
 ];
