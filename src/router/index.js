@@ -49,14 +49,6 @@ export const routes = [
               headline: "Vue migrating"
             }
           },
-          {
-            path: "code-highlight",
-            name: "code-highlight",
-            component: () => import("../views/Comprehensive/CodeHighlight"),
-            meta: {
-              headline: "Code with highlight.js"
-            }
-          }
         ]
       },
     ]

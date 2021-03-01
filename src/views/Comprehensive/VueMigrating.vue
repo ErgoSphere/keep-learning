@@ -3,9 +3,8 @@
     <div class="paragraph">
       <h4>1. Vue, Vue Router及Vuex写法迁移</h4>
       <p>- Vue Router</p>
-      <div v-highlight>
-        <pre>
-        <code>
+      <pre>
+        <prism language="javascript">
           //vue 2.x
           import Vue from "vue"
           import VueRouter from "vue-router
@@ -20,14 +19,12 @@
             history: createWebHistory(process.env.BASE_URL),
             routes
           });
-        </code>
-    </pre>
-      </div>
+        </prism>
+      </pre>
 
       <p>- Vuex</p>
-      <div v-highlight>
-        <pre v-highlight>
-        <code>
+      <pre>
+        <prism language="javascript">
           //vue 2.x
           import Vue from "vue"
           import Vuex from "vuex
@@ -40,18 +37,32 @@
           export const store = createStore({
             modules: {}
           })
-        </code>
-    </pre>
-      </div>
+        </prism>
+      </pre>
 
       <p>- Vue</p>
-      <div v-highlight>
-           <pre v-highlight>
-        <code>
+      <pre>
+        <prism language="javascript">
           //2.x
-        </code>
+          import Vue from "vue"
+          import App from "./App.vue"
+          import router from "./router"
+          import store from "./store"
+          new Vue({
+            router,
+            store,
+            render: h => h(App)
+          }).$mount("#app")
+
+          //3.x
+          import { createApp } from "vue"
+          import App from "./App.vue"
+          import router from "./router"
+          import { store } from "./store"
+          const vueApp = createApp(App)
+          vueApp.use(store).use(router).mount("#app")
+        </prism>
       </pre>
-      </div>
     </div>
     <div class="paragraph">
       <h4>2. template使用v-for</h4>

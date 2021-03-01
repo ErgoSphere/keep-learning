@@ -33,7 +33,9 @@
     "highlight.js": "^10.6.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.19.1",
+    "prismjs": "^1.23.0",
     "sass-loader": "^8.0.2",
+    "vue-prism-component": "^2.0.0",
     "vue-template-compiler": "^2.6.11",
     "xlsx": "^0.16.9"
   }
