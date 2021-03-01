@@ -174,7 +174,7 @@ HTTPS：安全套接字层超文本转输协议，在HTTP的基础上加入了SS
         }
        ```
 
-  b. absoulte
+  b. absolute
 
     ```
     <div class="parent">

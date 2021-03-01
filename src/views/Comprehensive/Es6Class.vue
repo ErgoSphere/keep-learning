@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <div class="paragraph">
-      <h4>1. Vue, Vue Router及Vuex写法迁移</h4>
-      <p>- Vue Router</p>
-      <pre>
+  <div class="paragraph">
+    <h4>1.</h4>
+    <p>- Vue Router</p>
+    <pre>
         <prism language="javascript">
           //vue 2.x
           import Vue from "vue"
@@ -22,8 +21,8 @@
         </prism>
       </pre>
 
-      <p>- Vuex</p>
-      <pre>
+    <p>- Vuex</p>
+    <pre>
         <prism language="javascript">
           //vue 2.x
           import Vue from "vue"
@@ -40,8 +39,8 @@
         </prism>
       </pre>
 
-      <p>- Vue</p>
-      <pre>
+    <p>- Vue</p>
+    <pre>
         <prism language="javascript">
           //2.x
           import Vue from "vue"
@@ -63,32 +62,15 @@
           vueApp.use(store).use(router).mount("#app")
         </prism>
       </pre>
-    </div>
-
-    <div class="paragraph">
-      <h4>2. template使用v-for</h4>
-      <p>2.x中key不允许放置在&lt;template&gt;标签上，3.x必须放在template上</p>
-      <i>*使用vue-cli安装eslint时，vue-essential会对key的位置作校验，必须使用vue3-essential作为规则拓展</i>
-    </div>
-
-    <div class="paragraph">
-      <h4>3. vue-cli 4.0使用 compression-webpack-plugin v7.1.0以上报错 Cannot read property 'tapPromise' of undefined</h4>
-      <p>当前方法只能为降级到5.0.1及以下版本，vue-cli4现阶段(2021-03-01)的webpack版本为5.0.0, 而compression-webpack-plugin v7.1.0要求至少为5.1.0</p>
-    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "VueUpgrade",
-
-  data() {
-    return {
-      vueRouterCode:
-        "import { createWebHistory, createRouter } from 'vue-router';"
-    };
-  }
+  name: "Es6Class"
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>

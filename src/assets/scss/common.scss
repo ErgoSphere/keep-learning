@@ -519,3 +519,9 @@ p {
 	opacity: 0;
 	transform: translateY(24px);
 }
+.paragraph {
+   margin-bottom: 32px;
+  & > h4 {
+    color: $blue;
+  }
+}
