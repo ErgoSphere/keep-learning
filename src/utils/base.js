@@ -107,3 +107,16 @@ export const limitLength = (e, ml) => {
     input.value = split.slice(0, n).join("");
   }
 };
+
+//字符串是否包含在另一字符串中（ES6实现）
+export const stringContains = (str1, str2) => {
+  //str1: "GTX", str2: "GTX0239302399"
+  return str2.includes(str1);
+  // return str2.startsWith(str1)
+};
+
+//单据补位，如000000001，000000010
+export const fillNo = () => {
+  let s = "1";
+  return s.padStart(9, "0");
+};
