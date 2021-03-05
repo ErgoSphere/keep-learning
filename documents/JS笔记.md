@@ -23,6 +23,9 @@
 - client通过 Upgrade:websocket 告知服务器，服务器接收后同意将协议转为websocket，然后HTTP连接终止并被websocket连接替代
 
 - socket.io使用：options.transports指定类型，可选websocket, polling, polling-xhr, polling-jsonp，[demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/api/socket.js)
+
+### ❖ Function.apply()应用衍生
+
  
   
 
