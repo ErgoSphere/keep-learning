@@ -1,4 +1,4 @@
-### 双向绑定原理 
+### ❖ 双向绑定原理 
 
 1. 2.0
 
@@ -30,11 +30,15 @@ book.name = "Opps"
 console.log(book.name) // "Opps!"
 ```
 
+> 初始化时，通过Object.defineProperty()给每个属性建立getter/setter，每个都有独立使用一个Dep作为收集器。建立一个Watcher并添加到Dep中。当属性set的时候，由Dep通知Watcher更新页面，get的时候通过Dep查找相关的Watcher依赖，如果没有使用到该属性则不会触发相关函数
+
+> 无法通过直接赋值修改对象值与getter/setter初始化有关，浏览器对Object.observe()支持较差，2.0实际是未作递归的观察，原因为运行速度太差。
+
 2. 3.0: 通过Proxy()
 
 ---
 
-### 实现不同组件间数据交流的方法
+### ❖ 实现不同组件间数据交流的方法
 
 1. 父子组件：父 ⇒ 子 props, 子 ⇒ 父 emit
 
@@ -50,7 +54,7 @@ console.log(book.name) // "Opps!"
 
 ---
 
-### computed默认只有getter，但可以自定义setter
+### ❖ computed默认只有getter，但可以自定义setter
 
 ```js
 new Vue({
@@ -72,7 +76,7 @@ new Vue({
 
 ---
 
-### v-for 
+### ❖ v-for 
 
 - v-if与v-for同时使用时，v-for具有更高优先级 
 
@@ -80,12 +84,39 @@ new Vue({
 
 --- 
 
-### 全局组件
+### ❖ 全局组件
 
 - 全局组组件的注册行为必须在根实例化前发生，props的验证会在组件实例创建前进行
 
 - 组件props的type可为自定义函数([参考](https://cn.vuejs.org/v2/guide/components-props.html))
 
-### 插槽
+### ❖ 插槽
 
 DEMO: [https://github.com/ErgoSphere/vue-virtual-scroller](https://github.com/ErgoSphere/vue-virtual-scroller)
+
+### ❖ 生命周期
+
+1. beforeCreated: 什么都不干
+
+2. created: 初始化data，实际已做好绑定，但$el仍为undefined
+
+3. beforeMounted: 编译好模板，生成DOM(实际为替换DIV)
+
+4. mounted: 挂载， 旧$el被新$el替换完毕
+
+5. beforeUpdate: 更新视图之前，未渲染，在这里更改状态不会触发重渲染
+
+6. updated: 视图更新
+
+7. beforeDestroyed: 销毁实例前，实例仍可用
+
+8. destroyed: 当前实例和子实例销毁完成后（服务端渲染期不可用）
+
+### ❖ Vuex
+
+- 通过Vue.mixin对在beforeCreated的时候注入个$store对象
+
+### ❖ [创建对象生成原型链](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
+
+### ❖ [Vue 2.x 升级 Vue 3.x](https://github.com/ErgoSphere/es-plugins/blob/master/src/views/Comprehensive/VueMigrating.vue)
+

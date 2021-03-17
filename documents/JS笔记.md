@@ -24,7 +24,9 @@
 
 - socket.io使用：options.transports指定类型，可选websocket, polling, polling-xhr, polling-jsonp，[demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/api/socket.js)
 
-### ❖ Function.apply()应用衍生
+### ❖ 数组合并(Demo)[https://github.com/ErgoSphere/es-plugins/blob/master/src/utils/ObjectUtils/arrayConcat.js]
+
+
 
  
   
