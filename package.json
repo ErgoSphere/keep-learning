@@ -36,6 +36,7 @@
     "prismjs": "^1.23.0",
     "sass-loader": "^8.0.2",
     "socket.io-client": "^3.1.2",
+    "three": "^0.126.1",
     "vue-prism-component": "^2.0.0",
     "vue-template-compiler": "^2.6.11",
     "xlsx": "^0.16.9"

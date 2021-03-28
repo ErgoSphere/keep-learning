@@ -24,7 +24,16 @@
 
 - socket.io使用：options.transports指定类型，可选websocket, polling, polling-xhr, polling-jsonp，[demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/api/socket.js)
 
-### ❖ 数组合并(Demo)[https://github.com/ErgoSphere/es-plugins/blob/master/src/utils/ObjectUtils/arrayConcat.js]
+### ❖ 数组合并[Demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/utils/ObjectUtils/arrayConcat.js)
+
+### ❖ 切换浏览器导航或最小化窗口时监听 ([ref](https://developer.mozilla.org/zh-CN/docs/Web/API/Page_Visibility_API))
+
+```js
+document.addEventListener("visibilitychange", function(ev) { 
+  console.log(document.hidden)
+})
+```
+
 
 
 

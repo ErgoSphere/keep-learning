@@ -120,3 +120,29 @@ DEMO: [https://github.com/ErgoSphere/vue-virtual-scroller](https://github.com/Er
 
 ### ❖ [Vue 2.x 升级 Vue 3.x](https://github.com/ErgoSphere/es-plugins/blob/master/src/views/Comprehensive/VueMigrating.vue)
 
+### ❖ 使用innerHTML等原生方法后样式失效
+
+样式标签应为<style lang="scss"></style>，不可以使用scoped属性
+
+### ❖ vue prototype 全局变量动态更新
+
+以vuex存储状态更新值为例
+
+```js
+Vue.mixin({
+  computed: {
+    LOCALE: function() {
+      return store.state.sys.info ? store.state.sys.info.lang_packet: {}
+    }
+  }
+})
+new Vue({
+  components: { App },
+  router,
+  store,
+  template: "<App/>"
+}).$mount("#app")
+```
+
+
+

@@ -1,8 +1,6 @@
 /**
  * Created by ErgoSphere on 2021/3/3
- *
  * [3,2,3,4,6,5]
- *
  * [3, 1]
  **/
 
@@ -33,7 +31,6 @@ var findErrorNums = function(nums) {
       a.push(min - 1)
     }
   }
-
   return a
 };
 
