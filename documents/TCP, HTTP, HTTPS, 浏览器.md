@@ -16,7 +16,7 @@
 
 ---
 
-####HTTP和HTTPS区别：
+#### ❖ HTTP和HTTPS区别：
 
 1.HTTPS需要到ca申请证书，免费较少
 
@@ -27,7 +27,7 @@
 4.HTTP连接简单无状态， HTTPS更安全
 
 ---
-####TCP三次握手四次挥手：
+#### ❖ TCP三次握手四次挥手：
 
 1. client发送报文1
 
@@ -45,7 +45,7 @@
 
 ---
 
-####输入网址后浏览器做了什么事(浏览器渲染过程)
+#### ❖ 输入网址后浏览器做了什么事(浏览器渲染过程)
 
 - 请求过程
 
@@ -76,3 +76,38 @@
 4. 生成渲染树后，浏览器会根椐渲染树进行布局（回流/自动重排）
 
 5. 布局完成后进行绘制（对象paint）
+
+- 浏览器渲染方式： Flow Based Layout
+
+- 由于浏览器使用流式布局，对 Render Tree 的计算通常只需要遍历一次就可以完成，但 table 及其内部元素除外，他们可能需要多次计算，通常要花 3 倍于同等元素的时间
+
+### ❖ 浏览器多个标签页内通信
+
+1. websocket
+
+2. localStorage监听(需要同域名下)
+
+```js
+window.addEventListener('storage', e => {})
+```
+
+3. postMessage(需要能获取对标签页的引用)
+
+
+### ❖ 回流和重绘
+
+- 回流：回流是布局或者几何属性需要改变。回流必定会发生重绘，重绘不一定会引发回流。
+
+- 重绘：由于节点的集合属性发生改变或者由于样式改变而不会影响布局的，成为重绘，例如 outline、visibility、color、background-color 等
+
+- 优化：
+
+1. 避免使用强制渲染刷新队列的函数，如width, height, getBoundingClientRect, scrollTop, offsetTop等
+
+2. 使用visibility（重绘）替换display: none（回流）
+
+3. 避免使用table
+
+4. 避免使用css表达式（回流）
+
+5. 动画效果应用到 position 属性为 absolute 或 fixed 的元素上

@@ -30,7 +30,7 @@ ref: [https://www.jianshu.com/p/c6cae35e2b93](https://www.jianshu.com/p/c6cae35e
 
 ---
 
-### 居中显示某个DIV
+### ❖ 居中显示某个DIV
 
 1. [BFC](https://www.cnblogs.com/chen-cong/p/7862832.html)：
 
@@ -141,7 +141,7 @@ ref: [https://www.jianshu.com/p/c6cae35e2b93](https://www.jianshu.com/p/c6cae35e
 
 ---
 
-### 响应式
+### ❖ 响应式
 
 - responsive: @media(CSS3)
 
@@ -161,3 +161,30 @@ ref: [https://www.jianshu.com/p/c6cae35e2b93](https://www.jianshu.com/p/c6cae35e
   + vw, vh: 视窗宽高，IE9+部份支持
     
   + vmin, vmax: vw和vh中较小/大的 
+    
+
+### ❖ BFC(block format context) 块级格式化上下文
+
+内部元素和外部元素互不影响  
+
+- 创建
+
+1. html根
+
+2. float
+
+3. 绝对定位
+
+4. overflow非visible
+
+5. display为table或flex
+
+- 用处
+
+1. 清除浮动
+
+2. 防止同一BFC相领元素外边距重叠
+
+
+
+2
