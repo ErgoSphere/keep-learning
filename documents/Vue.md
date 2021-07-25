@@ -52,6 +52,26 @@ console.log(book.name) // "Opps!"
 
 6. vue.prototype["object_name"]
 
+7. 构建event bus
+
+bus.js
+```js
+import Vue from 'vue'
+const bus = new Vue()
+export default bus
+```
+
+component a:
+```js
+bus.$emit('event-name', params)
+```
+
+component b:
+```js
+bus.$on('event-name', res => {})
+```
+
+
 ---
 
 ### ❖ computed默认只有getter，但可以自定义setter
