@@ -1,10 +1,14 @@
 ### ❖ [ES6笔记](https://github.com/ErgoSphere/es-plugins/blob/master/documents/ES6%E7%AC%94%E8%AE%B0.md)
 
+---
+
 ### ❖ JS数据类型 ([ref](https://zhuanlan.zhihu.com/p/95534245))
 
 - 基本数据类型：Undefined, Null, Number, String, Boolean, Symbol(ES6)
 
 - 复杂数据类型： Object
+
+---
 
 ### ❖ 深拷贝和浅拷贝
 
@@ -24,7 +28,11 @@
 
 - socket.io使用：options.transports指定类型，可选websocket, polling, polling-xhr, polling-jsonp，[demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/api/socket.js)
 
+---
+
 ### ❖ 数组合并[Demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/utils/ObjectUtils/arrayConcat.js)
+
+---
 
 ### ❖ 切换浏览器导航或最小化窗口时监听 ([ref](https://developer.mozilla.org/zh-CN/docs/Web/API/Page_Visibility_API))
 
@@ -33,6 +41,8 @@ document.addEventListener("visibilitychange", function(ev) {
   console.log(document.hidden)
 })
 ```
+
+---
 
 ### ❖ 继承
 
@@ -181,3 +191,96 @@ new Foo() instanceof Foo //false
 ```
 
 
+
+
+---
+
+### ❖ 模块化
+
+- ES6, CommonJS, CMD, AMD
+- 模块内部数据与实现是私有的，向外部暴露一些接口方法与外部其它模块通信
+- 优势：减少命名空间污染，更好的分离，按需加载，高复用性，高可维护性
+- 引入多个script标签后的问题：请求过多，依赖模糊
+
+> **全局function模式**: 污染全局命名空间，容易引起冲空或数据不安全，模块成员间看不出直接联系
+
+> **namespace模式**: 减少全局变量，解决命名冲空，数据不安全，外部可直接修改内部数据
+
+> **IIFE模式**: 匿名函数自调用（闭包），将数据及方法封装到一个函数内部，通过给window添加属性来向外暴露接口
+
+**CommonJS**
+
+1. Node应用模块采用了此种方式，每个文件为一个模块，有自己的作用域，文件内变量、函数、类私有，在服务器端是同步加载，浏览器端需要提前编译打包 browserify
+
+2. 不会污染全局作用域
+
+3. 模块只在第一次加载时运行，运行结果缓存，多次加载需要清缓存
+
+4. 模块加载顺序按在代码中出现的顺序
+
+5. 输入为被输出值的拷贝，输出后模块内部变化无法再影响此值
+
+``` js
+//output 
+module.export = value 
+module.xxx = value
+//import
+require("xxx") //file name or file path
+```
+
+**AMD**
+
+1. 非同步，浏览器端常用
+
+2. 会发送多个请求，且依赖顺序不能错 ，require.js可解决
+
+```js
+define(function() { 
+  return 模块
+})
+define(['module1', 'module2'], function() {})
+require(['module1', 'module2'], function () {})
+```
+
+**CMD**
+
+CommonJS和AMD的结合，加载异步，使用时才执行，用于浏览器端（例sea.js）
+
+**ES6**
+
+```js
+export { func1, func2 }
+import { func1, func2 } from ".."
+```
+
+- require和import的区别
+
+1. require: commonJS, 导入模块为值传递或引用传递
+
+2. import: ES6 Module, default为独有关键字，导入为强绑定 
+
+---
+
+
+
+---
+
+### ❖ 安全防范 [Ref](https://juejin.cn/post/6844904020562165773)
+
+- XSS注入
+
+1. CSP开启白名单：1. 设置HTTP Header 的 Content-Security-Policy
+
+2. 使用转义字符
+
+- CSRF
+
+1. Get请求不对数据修改
+
+2. 不让第三方访问到用户cookie
+
+3. 阻止第三方请求接口
+
+4. 请求时附带证信息，如验证码或着token
+
+- 点击劫持

@@ -1,9 +1,14 @@
- 
-- 需要预先在电脑上装有platform-tools并配置好环境变量 
+/**
+ * Created by ErgoSphere on 2021/7/30
+ *
+ * Node.js
+ *
+ * 需要预先在电脑上装有platform-tools并配置好环境变量
+ * 锁屏状态下连接手机可能会导致读取失败
+ **/
 
-```js
 const adb = require("adbkit")
-
+let client
 const adbInit = () => {
   client = adb.createClient()
   client.trackDevices().then(tracker => {
@@ -26,6 +31,3 @@ const adbInit = () => {
     tracker.on("end", () => {})
   })
 }
-```
-
-- 锁屏状态下连接手机可能会导致读取失败

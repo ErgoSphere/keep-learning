@@ -185,6 +185,8 @@ ref: [https://www.jianshu.com/p/c6cae35e2b93](https://www.jianshu.com/p/c6cae35e
 
 2. 防止同一BFC相领元素外边距重叠
 
+### ❖ 其它问题
 
+1. Q: fixed定位没有按照窗口视图
 
-2
+   A: 视先元素含有transition非none时，定位容器由视口改为该祖先
