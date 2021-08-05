@@ -190,3 +190,7 @@ ref: [https://www.jianshu.com/p/c6cae35e2b93](https://www.jianshu.com/p/c6cae35e
 1. Q: fixed定位没有按照窗口视图
 
    A: 视先元素含有transition非none时，定位容器由视口改为该祖先
+
+2. Q: transform对普通元素的影响
+
+   A: 提升元素的垂直地位；限制子元素中的position: fixed的跟随效果(未根椐视窗作定位)
