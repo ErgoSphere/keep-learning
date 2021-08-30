@@ -4,9 +4,33 @@
 
 ### ❖ JS数据类型 ([ref](https://zhuanlan.zhihu.com/p/95534245))
 
-- 基本数据类型：Undefined, Null, Number, String, Boolean, Symbol(ES6)
+1. 基本数据类型：Undefined, Null, Number, String, Boolean, Symbol(ES6)
 
-- 复杂数据类型： Object
+2. 复杂数据类型： Object
+
+- symbol: 
+
+```js
+const s = Symbol() // typeof s = 'symbol'
+```
+
+不使用new是因为通过new实例化的结果为object对象
+
+即使传入相同的参数生成的symbol值也不一样（独有）
+
+```js
+const foo = Symbol('foo')
+const bar = Symbol('foo')
+console.log(foo === bar) // false
+```
+
+使用Symbol.for可校验上下文是否存在使用该方法且相同参数创建的symbol值
+
+```js
+const s1 = Symbol.for('foo')
+const s2 = Symbol.for('foo')
+console.log(s1 === s2) // true
+```
 
 ---
 

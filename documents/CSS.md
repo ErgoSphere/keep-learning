@@ -185,6 +185,14 @@ ref: [https://www.jianshu.com/p/c6cae35e2b93](https://www.jianshu.com/p/c6cae35e
 
 2. 防止同一BFC相领元素外边距重叠
 
+---
+
+### ❖ width 覆盖
+
+min-width > max-width > width (即使!important)
+
+---
+
 ### ❖ 其它问题
 
 1. Q: fixed定位没有按照窗口视图
