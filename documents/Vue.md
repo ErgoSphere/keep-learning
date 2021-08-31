@@ -6,6 +6,8 @@ ref1:  [https://my.oschina.net/u/4386652/blog/4281447](https://my.oschina.net/u/
 
 ref2: [https://juejin.cn/post/6844903479044112391](https://juejin.cn/post/6844903479044112391)
 
+ref3: [https://www.huaweicloud.com/articles/d9c3ab01500c3343fd240da6cc65c8c6.html](https://www.huaweicloud.com/articles/d9c3ab01500c3343fd240da6cc65c8c6.html)
+
 - 通过数据劫持发布者-订阅者的方式实现 ⇒ Object.defineProperty ⇒ 将每个数据读写转化为getter/setter， 对象上有get()、set()
 
 - ES5特性，且无法补丁实现，所以不支持IE8及更低版本
@@ -48,7 +50,7 @@ console.log(book.name) // "Opps!"
 
 4. 通过ref访问子组件实例或子元素
 
-5. 依赖注入，指定父组件可提供给后代组件数据/方法， 父provide， 子inject([demo](https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dependency-injection?file=/index.html:618-624))
+5. 依赖注入，指定父组件可提供给后代组件数据/方法， 父provide， 子inject([demo1](https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dependency-injection?file=/index.html:618-624), [demo2](https://v3.cn.vuejs.org/guide/component-provide-inject.html#%E5%A4%84%E7%90%86%E5%93%8D%E5%BA%94%E6%80%A7))
 
 6. vue.prototype["object_name"]
 

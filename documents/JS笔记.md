@@ -58,7 +58,7 @@ const deep_clone = obj => {
     for (k in obj) {
       if (obj[k] instanceof Array || obj[k] instanceof Object) {
         ret[k] = deep_clone(obj[k]);
-      } else {
+      } else { 
         ret[k] = obj[k];
       }
     }
