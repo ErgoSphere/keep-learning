@@ -36,6 +36,41 @@ console.log(s1 === s2) // true
 
 ### ❖ 深拷贝和浅拷贝
 
+浅拷贝： 指两个js 对象指向同一个内存地址，其中一个改变会影响另一个。浅拷贝只会拷贝一层，深层的引用类型改变还是会受到影响。
+
+```js
+let oldObj = {1: 'a', 2: 'b'}
+let newObj1 = Object.assign({}, oldObj)
+let newObj2 = {...oldObj}
+// array slice 
+```
+
+深拷贝： 指复制后的新对象重新指向一个新的内存地址，两个对象改变互不影响。
+
+```js
+//不含函数
+let oldObj = {1: 'a', 2: 'b'}
+console.log(JSON.parse(JSON.stringify(oldObj)))
+const deep_clone = obj => {
+  let ret, k, b;
+  if ((b = obj instanceof Array) || obj instanceof Object) {
+    ret = b ? [] : {};
+    for (k in obj) {
+      if (obj[k] instanceof Array || obj[k] instanceof Object) {
+        ret[k] = deep_clone(obj[k]);
+      } else {
+        ret[k] = obj[k];
+      }
+    }
+  }
+
+  return ret;
+};
+```
+
+---
+
+
 ### ❖ 变量声明方法
  
 - ES5: var, function
@@ -119,13 +154,13 @@ SubType.prototype = new SuperType() // 第一次调用
 
 - 寄生式继承：在原型式继承基础上增强浅复制能力 
 
-- 寄生组合继承：解决组合继随的缺点 
+- 寄生组合继承：解决组合继承的缺点 
 
 - ES6 Class extends
 
-本质上是ES5继随的语法糖 
+本质上是ES5继承的语法糖 
 
-ES6继随中子类的构造函数的原型链指向父类的构造函数，ES5中仅为复制无原型链指向 
+ES6继承中子类的构造函数的原型链指向父类的构造函数，ES5中仅为复制无原型链指向 
 
 小结：
 
