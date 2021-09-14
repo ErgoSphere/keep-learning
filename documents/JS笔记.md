@@ -417,5 +417,15 @@ unload event
 1. 在事件中发送异步请求：失败
 2. 在事件中发送同步xhr：延迟页面卸载
 3. 在事件中使用image src：延迟页面卸载 
-4. 在事件中使用no-op 循环：延迟页面卸载
+4. 在事件中使用创建个几秒中的no-op循环来延迟页面卸载并向服务器发送信息
 5. （最优解）navigator.sendBeacon: 通过HTTP将少量数据**异步**传输到服务器
+
+---
+### ➤ [MVVM, MVC, MVP](https://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html)
+1. **MVC**
+- Model → View → Controller → Model : 单向通信
+- view发送指令到controller, controller完成业务逻辑，要求model改变状态，然后model将新数据发送到view, 用户得到反馈
+2. **MVP**
+- View ⇋ Presenter ⇋ Model : 双向, view 不和 Model通信
+3. **MVVM**
+- Model ⇋ View ↔︎ ViewModel: Model与View双向通信，view和ViewModel双向绑定
