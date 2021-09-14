@@ -1,4 +1,4 @@
-### ❖ 双向绑定原理 
+### ➤ 双向绑定原理 
 
 1. 2.0
 
@@ -40,7 +40,7 @@ console.log(book.name) // "Opps!"
 
 ---
 
-### ❖ 实现不同组件间数据交流的方法
+### ➤ 实现不同组件间数据交流的方法
 
 1. 父子组件：父 ⇒ 子 props, 子 ⇒ 父 emit
 
@@ -76,7 +76,7 @@ bus.$on('event-name', res => {})
 
 ---
 
-### ❖ computed默认只有getter，但可以自定义setter
+### ➤ computed默认只有getter，但可以自定义setter
 
 ```js
 new Vue({
@@ -98,7 +98,7 @@ new Vue({
 
 ---
 
-### ❖ v-for 
+### ➤ v-for 
 
 - v-if与v-for同时使用时，v-for具有更高优先级 
 
@@ -106,47 +106,40 @@ new Vue({
 
 --- 
 
-### ❖ 全局组件
+### ➤ 全局组件
 
 - 全局组组件的注册行为必须在根实例化前发生，props的验证会在组件实例创建前进行
 
 - 组件props的type可为自定义函数([参考](https://cn.vuejs.org/v2/guide/components-props.html))
 
-### ❖ 插槽
+### ➤ 插槽
 
 DEMO: [https://github.com/ErgoSphere/vue-virtual-scroller](https://github.com/ErgoSphere/vue-virtual-scroller)
 
-### ❖ 生命周期
+### ➤ 生命周期
 
 1. beforeCreated: 什么都不干
-
 2. created: 初始化data，实际已做好绑定，但$el仍为undefined
-
 3. beforeMounted: 编译好模板，生成DOM(实际为替换DIV)
-
 4. mounted: 挂载， 旧$el被新$el替换完毕
-
 5. beforeUpdate: 更新视图之前，未渲染，在这里更改状态不会触发重渲染
-
 6. updated: 视图更新
-
 7. beforeDestroyed: 销毁实例前，实例仍可用
-
 8. destroyed: 当前实例和子实例销毁完成后（服务端渲染期不可用）
 
-### ❖ Vuex
+### ➤ Vuex
 
 - 通过Vue.mixin对在beforeCreated的时候注入个$store对象
 
-### ❖ [创建对象生成原型链](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
+### ➤ [创建对象生成原型链](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
 
-### ❖ [Vue 2.x 升级 Vue 3.x](https://github.com/ErgoSphere/es-plugins/blob/master/src/views/Comprehensive/VueMigrating.vue)
+### ➤ [Vue 2.x 升级 Vue 3.x](https://github.com/ErgoSphere/es-plugins/blob/master/src/views/Comprehensive/VueMigrating.vue)
 
-### ❖ 使用innerHTML等原生方法后样式失效
+### ➤ 使用innerHTML等原生方法后样式失效
 
 样式标签应为<style lang="scss"></style>，不可以使用scoped属性
 
-### ❖ vue prototype 全局变量动态更新
+### ➤ vue prototype 全局变量动态更新
 
 以vuex存储状态更新值为例
 
@@ -165,6 +158,14 @@ new Vue({
   template: "<App/>"
 }).$mount("#app")
 ```
+
+---
+### ➤ 父子组件生命周期顺序
+
+1. 加载渲染：父beforeCreate → 父created → 父beforeMount → 子beforeCreate → 子created → 子beforeMount → 子mounted → 父mounted
+2. 子组件更新：父beforeUpdate → 子beforeUpdate → 子updated → 父updated
+3. 父组件更新：父beforeUpdate → 父updated
+4. 销毁：父beforeDestroy → 子beforeDestroy → 子destroyed → 父destroyed
 
 
 
