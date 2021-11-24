@@ -429,3 +429,14 @@ unload event
 - View ⇋ Presenter ⇋ Model : 双向, view 不和 Model通信
 3. **MVVM**
 - Model ⇋ View ↔︎ ViewModel: Model与View双向通信，view和ViewModel双向绑定
+Z
+---
+### ➤ JS对象转换
+1. 对象到字符串
+- 如对象有toString()，则调用该方法
+- 如无toString()或此方法不返回一个原始值，则调用valueOf()
+- 两者都无，此时抛出一个类型错误异常
+2. 对象到数字
+- 如有valueOf()，则调用该方法
+- 如无valueOf()，则调用toString()
+- 两者都无，此时抛出一个类型错误异常
