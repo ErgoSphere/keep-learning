@@ -139,4 +139,20 @@ new Vue({
 - webpack配置external，不打包第三方库
 - 配置DLLPlugin和DLLReferencePlugin，将引用依赖提取
 
+---
+### ➤ Vue切换路由时保存草稿功能实现
 
+- beforeRouteLeave
+- keep-alive
+
+---
+### ➤ Vue的模板语法引擎？
+
+- Vue使用的Mustache模板引擎（双大括号语法）
+
+---
+### ➤ keep-alive使用注意
+
+- 初次进入：created → mounted → activated
+- 退出时触发deactivated
+- 再次进入仅触发activated
