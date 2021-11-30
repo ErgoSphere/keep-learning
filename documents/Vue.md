@@ -130,5 +130,13 @@ new Vue({
 3. 父组件更新：父beforeUpdate → 父updated
 4. 销毁：父beforeDestroy → 子beforeDestroy → 子destroyed → 父destroyed
 
+---
+### ➤ Vue打包vendor过大解决
+    
+- vue-router懒加载
+- gzip压缩
+- CDN引入js和css
+- webpack配置external，不打包第三方库
+- 配置DLLPlugin和DLLReferencePlugin，将引用依赖提取
 
 

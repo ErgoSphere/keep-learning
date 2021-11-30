@@ -337,7 +337,7 @@ require(['module1', 'module2'], function () {})
 3. Websocket: 全双工通信([ref](http://websocket.org/aboutwebsocket.html))
 - 握手由HTTP进行，此后于HTTP无关
 - 通道由client发起HTTP连接，服务器收到后打开对应的HOST TCP/IP连接。通道建立后可以无阻挡地通过代理Proxy
-- client通过 Upgrade:websocket 告知服务器，服务器接收后同意将协议转为websocket，然后HTTP连接终止并被websocket连接替代
+- client通过 Upgrade:websocket 告知服务器，服务器接收后同意将协议转为websocket（响应101状态码），然后HTTP连接终止并被websocket连接替代
 - socket.io使用：options.transports指定类型，可选websocket, polling, polling-xhr, polling-jsonp，[demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/api/socket.js)
 
 ---
@@ -429,7 +429,7 @@ unload event
 - View ⇋ Presenter ⇋ Model : 双向, view 不和 Model通信
 3. **MVVM**
 - Model ⇋ View ↔︎ ViewModel: Model与View双向通信，view和ViewModel双向绑定
-Z
+
 ---
 ### ➤ JS对象转换
 1. 对象到字符串
@@ -440,3 +440,41 @@ Z
 - 如有valueOf()，则调用该方法
 - 如无valueOf()，则调用toString()
 - 两者都无，此时抛出一个类型错误异常
+
+---
+### ➤ Get请求传参长度限制
+
+- HTTP协议未作规定，最大长度是浏览器和服务器限制URI的长度，不同的浏览器和服务器限制的长度不一样
+- 要支持IE，则最大长度为2083byte，若只支持chrome，则最大长度为8182byte
+
+---
+### ➤ 为什么使用setTimeout实现setInterval
+
+- setInterval是将事件放在任务队列中，当空闲时才取事件执行，如果有执行栈时间过长，多个计时器则不能按指定时间执行任务
+
+---
+### ➤ URL和URI的区别
+
+- URI：统一资源标识符，http://www.xxx.com/html/html1, 命名机制+主机名+资源自身路径
+- URL：统一资源定位器，http://www.11.com:9000/aaa, schema://host:port/path, schema有http, ftp, gopher等
+- URN：统一资源命名：mailto:java-net@java.sun.com
+- URL和URN是URI的子集
+
+---
+### ➤ 内容安全策略CSP
+
+- 本质为建立白名单，只需配置规则，拦截则由浏览器自身实现，可以通过这种方式减少xss攻击
+- 开启：
+1. 设置http request header的Content-Security-Policy
+```
+//只许加载本站资源
+Content-Security-Policy:default-src 'self'
+//只许加载HTTPS协议的图片
+Content-Security-Policy:img-src https://*
+//允许任何来源
+Content-Security-Policy:child-src 'none'
+```
+2. meta标签
+```html
+<meta http-equiv="Content-Security-Policy" />
+```
