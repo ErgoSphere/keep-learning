@@ -478,3 +478,15 @@ Content-Security-Policy:child-src 'none'
 ```html
 <meta http-equiv="Content-Security-Policy" />
 ```
+
+---
+### ➤ 事件流传播过程
+
+- 事件捕获 → 事件目标 → 事件冒泡
+- document.addEventListener(..., capture), capture为boolean， ture为捕获，false为冒泡
+
+---
+### ➤ Reflect.ownKeys vs Object.keys
+
+- 两者都得到对象属性的集合，以数组形式返回
+- Reflect.ownKeys是所有属性，包括不可枚举和symbol；Object.keys仅包含可枚举属性
