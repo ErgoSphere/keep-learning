@@ -141,6 +141,21 @@
 min-width > max-width > width (即使!important)
 
 ---
+### ➤ 小型大写字母
+```css
+* {
+    font-variant: small-caps
+}
+```
+
+---
+### ➤ 代码规范（书写顺序）
+1. 布局定位： display, position, etc
+2. 自身属性：width, background, etc
+3. 文本属性：font, color, etc
+4. 其它属性：transition, cursor, etc
+
+---
 
 ### ➤ 其它问题
 1.

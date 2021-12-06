@@ -509,3 +509,27 @@ Content-Security-Policy:child-src 'none'
 ### ➤ map和object比较
 - [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map)
 - map可使用forEach遍历，但无法使用for循环，map.length为0，需要获取长度使用map.prototype.size
+
+---
+### ➤ JS递归深度限制
+由浏览器限制行为，超过浏览器限制出现堆栈溢出
+
+---
+### ➤ html渲染和canvas渲染性能
+
+- DOM渲染更易于构建复杂场景，但需要性能成本，需要经过层层规则计算（保留模式）
+- Canvas不储存额外的渲染信息，允许直接发送绘图命令到GPU，直接由显卡渲染（直接模式）
+
+---
+### ➤ Uint8Array 和 Uint8ClampedArray
+
+- 皆常用于canvas
+- Uint8ClampedArray主要用于canvas特殊场景，如imageData
+- 如果输入值为0～255整数，则两者结果一致
+- Uint8Array的转换逻辑为ToUint8，输入数转化为正整数，不进行四舍五入
+- Uint8ClampedArray的转换逻辑为ToUint8Clamp，负数归入0，大于255的数归入255，不直接取整，采用银行家舍入
+
+---
+### ➤ 中断事件传播
+1. addEventListener(eventName, callback, {once: true}) 
+2. addEventListener(eventName, e => e.stopImmediatePropagation())
