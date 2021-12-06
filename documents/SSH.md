@@ -27,6 +27,10 @@ Agent pid 1111
 ``` 
 $ ssh-add ~/.ssh/id_rsa
 ```
+macos更新可能导到致ssh-agent清空，可查看
+```
+$ ssh-add -l
+```
 - 复制SSH key到剪切版
 ```
 $ pbcopy < ~/.ssh/id_rsa.pub

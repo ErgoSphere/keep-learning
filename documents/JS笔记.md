@@ -504,3 +504,8 @@ Content-Security-Policy:child-src 'none'
 ---
 ### ➤ 浏览器请求头method等前为什么有冒号（:method）
 因为使用了http2协议进行转输，且可以压缩传输体积
+
+---
+### ➤ map和object比较
+- [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map)
+- map可使用forEach遍历，但无法使用for循环，map.length为0，需要获取长度使用map.prototype.size
