@@ -349,7 +349,7 @@ require(['module1', 'module2'], function () {})
 ---
 #### ➤ 输入网址后浏览器做了什么事(浏览器渲染过程)
 - **请求过程**
-1. 搜索浏览器自身DNS缓存 - 有缓存直接访问已缓存的IP地址
+1. 搜索浏览器自身DNS缓存，如有缓存直接访问已缓存的IP地址
 2. 无缓存，搜索系统自身DNS缓存，读取HOST文件，是否有DNS IP地址映射
 3. 向运营商发送DNS解析请求，获得IP地址
 4. 向IP地址所在server进行3次TCP握手建立连接
@@ -378,8 +378,10 @@ require(['module1', 'module2'], function () {})
 5. 动画效果应用到 position 属性为 absolute 或 fixed 的元素上
 
 ---
-### ➤ babel ES6转ES5
-代码字符串解析成AST（抽象语法树/Abstract Syntax Tree）: ES6 AST → ES5 AST → 再次生成代码字符串
+### ➤ ES6转ES5思路及babel原理
+
+- 代码字符串解析成AST（抽象语法树/Abstract Syntax Tree）: ES6 AST → ES5 AST → 再次生成代码字符串
+- babel转译：解析parse → 转换transfer(babel-traverse) → 生成generate (babel-generator) 
 
 ---
 ### ➤ 异步解决方案
@@ -490,3 +492,15 @@ Content-Security-Policy:child-src 'none'
 
 - 两者都得到对象属性的集合，以数组形式返回
 - Reflect.ownKeys是所有属性，包括不可枚举和symbol；Object.keys仅包含可枚举属性
+
+---
+### ➤ class的继承和prototype的继承一样吗
+
+- class为ES6继承，prototype为ES5的原型链继承
+- class的子类没有自己的this对象，先创造父类的this对象（所以先调用super），再用子类的构造函数修改this
+- prototype实质为先创造子类的this对象，再将父类方法通过Parent.apply(this)添加到子类上
+- class内部定义的方法不可枚举，不存在变量提升
+
+---
+### ➤ 浏览器请求头method等前为什么有冒号（:method）
+因为使用了http2协议进行转输，且可以压缩传输体积
