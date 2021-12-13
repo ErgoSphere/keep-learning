@@ -533,3 +533,8 @@ Content-Security-Policy:child-src 'none'
 ### ➤ 中断事件传播
 1. addEventListener(eventName, callback, {once: true}) 
 2. addEventListener(eventName, e => e.stopImmediatePropagation())
+
+---
+### ➤ Reflect
+1. 能避免某些Object方法造成的抛错，如Object.defineProperty修改不可写的对象时会抛错，而Reflect.defineProperty(obj, name, desc)会正常运行返回false。
+2. 与Proxy对象方法一一对应，避免如Proxy默认行为被修改，总可以在Reflect上获取默认行为

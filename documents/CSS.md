@@ -147,16 +147,18 @@ min-width > max-width > width (即使!important)
     font-variant: small-caps
 }
 ```
-
 ---
 ### ➤ 代码规范（书写顺序）
 1. 布局定位： display, position, etc
 2. 自身属性：width, background, etc
 3. 文本属性：font, color, etc
 4. 其它属性：transition, cursor, etc
-
 ---
+### ➤ FLIP动画处理
 
+- [https://juejin.cn/post/6844903772968206350](https://juejin.cn/post/6844903772968206350)
+- [https://codesandbox.io/s/react-picture-preview-flip-demo-m5zbm?file=/src/App.js](https://codesandbox.io/s/react-picture-preview-flip-demo-m5zbm?file=/src/App.js)
+---
 ### ➤ 其它问题
 1.
 >**Q**: fixed定位没有按照窗口视图
