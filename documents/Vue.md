@@ -19,7 +19,10 @@ console.log(book.name) // "Opps!"
 ```
 - 初始化时，通过Object.defineProperty()给每个属性建立getter/setter，每个都有独立使用一个Dep作为收集器。建立一个Watcher并添加到Dep中。当属性set的时候，由Dep通知Watcher更新页面，get的时候通过Dep查找相关的Watcher依赖，如果没有使用到该属性则不会触发相关函数
 - 无法通过直接赋值修改对象值与getter/setter初始化有关，浏览器对Object.observe()支持较差，2.0实际是未作递归的观察，原因为运行速度太差。
-2. **3.0**: 通过Proxy()
+2. **3.0**: Proxy代理/[ref](https://v3.cn.vuejs.org/guide/reactivity.html#vue-%E5%A6%82%E4%BD%95%E8%B7%9F%E8%B8%AA%E5%8F%98%E5%8C%96)
+- 从响应式代理中访问一个嵌套对象时，对象在被返回前也转换为一个代理
+- 使用Proxy时被代理对象与原始对象不相等（===）
+- Vue reactive仍可使用===
 ---
 
 ### ➤ 实现不同组件间数据交流的方法
