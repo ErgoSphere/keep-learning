@@ -125,10 +125,6 @@
 ---
 ### ➤ 响应式布局
 - responsive: @media(CSS3)
-- 针对手机设置
-```html
-<name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"></name>
-```
 - 各单位：
   + **px**: 绝对单位，精确按像素显示，chrome强制最小为12px, 可使用transform: scale hack   
   + **em**: 相对单位，基准为父节点字体大小，自身定义了font-size的话则整个页面1em都是不一样的值   
@@ -158,6 +154,41 @@ min-width > max-width > width (即使!important)
 
 - [https://juejin.cn/post/6844903772968206350](https://juejin.cn/post/6844903772968206350)
 - [https://codesandbox.io/s/react-picture-preview-flip-demo-m5zbm?file=/src/App.js](https://codesandbox.io/s/react-picture-preview-flip-demo-m5zbm?file=/src/App.js)
+---
+### ➤ CSS像素，物理像素, viewport等
+1. ** CSS像素(CSS pixels)：px**
+- px是相对单位，相对于设备像素(Device pixel)，是一个抽象概念，在谈论时一定要清楚它的上下文
+- 同一设备上1px对应物理像素可变化
+2. **物理像素/设备像素/DP(device-pixels)**
+- 单位pt，在css中属于绝对单位，1pt = 1/72inch
+- 设备像素比 DPR = DP/CSS pixel
+3. **设备独立像素/逻辑像素(DIP, Device Independent Pixel)**
+- CSS pixel = DIP
+- window对象中的devicePixelRatio = DP/DIP = DP/CSS pixel，所以由这个值能得到1个css像素可以代表多少个物理像素
+4. **设备像素比/DPR(device pixels ratio)**
+- 描述为**未缩放状态下**<code>物理像素</code>和<code>CSS像素</code>的**初始比例**关系
+5. **PPI(pixels per inch)**
+>主屏尺寸： 5.5inch
+> 
+> 主屏分辨率：1920 X 1080
+> 
+> ppi = 斜边尺寸/主屏尺寸 = sqrt(1920^2 + 1080^2)/5.5
+6. **viewport**
+- layout viewport的宽度可用<code>document.documentElement.clientWidth</code>得出，layout viewport的宽度大于浏览器可视区域宽度(visual viewport)
+- visual viewport的宽度可用<code>window.innerWidth</code>得出
+- ideal viewport, 理想的viewport, 无固定尺寸，在任意分辨率的屏幕下针对ideal viewport设计的网站不需要用户手动缩放或横向滚动条，都可以完美呈现效果给用户
+- 移动设备默认为layout viewport，可通过meta标签转为ideal viewport
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+```
+- 动态设置meta viewport
+```js
+//方法1
+document.write('<meta name="viewport" content="width=device-width, initial-scale=1.0">')
+//方法2, 已有meta viewport
+document.getElementsByTagName("meta")[0].setAttribute("content", "width=device-width")
+
+```
 ---
 ### ➤ 其它问题
 1.
