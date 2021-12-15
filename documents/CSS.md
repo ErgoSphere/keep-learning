@@ -179,7 +179,7 @@ min-width > max-width > width (即使!important)
 - ideal viewport, 理想的viewport, 无固定尺寸，在任意分辨率的屏幕下针对ideal viewport设计的网站不需要用户手动缩放或横向滚动条，都可以完美呈现效果给用户
 - 移动设备默认为layout viewport，可通过meta标签转为ideal viewport
 ```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 ```
 - 动态设置meta viewport
 ```js
