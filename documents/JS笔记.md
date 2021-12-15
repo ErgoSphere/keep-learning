@@ -408,12 +408,6 @@ require(['module1', 'module2'], function () {})
 7. 减少cookie大小
 
 ---
-### ➤ mobile视口配置
-```html
-<meta name="viewport" content="width=device-width" initial-scale="1.0" maximum-scale="1.0" minimum-scale="1.0" user-scalable="no" />
-```
-
----
 ### ➤ 在用户关闭页面前向服务器发送信息
 unload event
 1. 在事件中发送异步请求：失败

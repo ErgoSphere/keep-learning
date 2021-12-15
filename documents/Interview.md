@@ -160,7 +160,95 @@
      box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.5)
    }
    ```
-7. transform scale + devicePixelRatio(或媒体查询 )
+7. transform scale + devicePixelRatio(或媒体查询)
    ```
    scaleY = 1 / devicePixelRatio
    ```
+### 7）什么时候需要用到@2x, @3x的图片
+- devicePixelRatio为2/3的时候
+  ```scss
+  @mixin bg-image($url) {
+    background-image: url($url + "@2x.png");
+    @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+      background-image: url($url + "@3x.png")
+    }
+  }
+  .logo {
+    $size: 30px;
+    width: $size;
+    height: $size;
+    background-size: $size $size;
+    background-repeat: no-repeat;
+    @include bg-iamge("logo")
+  }
+  ```
+### 8) vue2到vue3的双向绑定原理由Object.defineProperty改为Proxy，优势是什么
+1. Proxy优势：
+  - 可以直接监听对象非属性， 可直接监听数组变化
+  - 返回的是新对象，可以只操作新对象达到目的，Object.defineProperty只能遍历对象属性进行更改
+2. Object.defineProperty: 兼容性更佳
+
+### 9）http请求头有哪些内容
+注意点 <code>:method:</code>, <code>:authority:</code>, <code>:path:</code>, <code>:scheme:</code>是因为使用http2协议传输且可以压缩传输体积
+
+### 10）webpack使用情况
+？？？？不明所以的提问
+
+### 11) Set和Map的用法，Map和Object的区别
+- Map和Object的区别：
+  - Map的遍历按照推入顺序，Object无序，遍历时则按照浏览器ASCII排序
+  - Map可由size得出长度，Object无法直接得出长度
+  - Map中的键可以是任意值（函数，对象，基本类型），Object的键必须是String或Symbol
+  - Map默认不包含任何键，只有显示插入(Map.set)的键，Object有原型
+  - Map可直接被迭代(<code>for (let value of map.values())</code>)，Object只有知道键才能迭代
+  - Map在频繁增删键值有更好的表现，Object无优化
+- Map和Set的区别用法
+  - Map以[key, value]（字典）形式储存，Set以[value, value]（集合）形式储存
+  - Set允许储存任何类型的**唯一值**(包括原始值和对象引用)
+    ```js
+    //数组去重
+    let arr = [1, 2, 3, 3, 3, 1]
+    console.log([...new Set(arr)]) // [1, 2, 3]
+    ```
+  - Set插入值时不作类型转换
+    ```js
+    let set_a = new Set()
+    set_a.add(5)
+    set_a.add("5")
+    console.log([...set_a]) // [5, "5"]
+    ```
+
+### 12）mobile适配
+过于笼统的提问
+
+### 13）微信小程序原生开发
+过于笼统的提问
+
+### 14）commonJS和ES6 Modules区别，ES6 Modules是否在编译的过程中加载还是在运行的过程中加载
+- commonJS: require
+- ES6 modules: import, export
+- ES6 Modules在编译的过程中加载，因为为了实现静态化，尽可能在运行前就知道依赖关系，输入和输出变量
+- commonJS和AMD模块都只在运行能确定依赖关系，输入输出
+  ```js
+  //commonJS
+  let { exists, readfile } = require("fs")
+  //等同于
+  let _fs = require("fs")
+  let exists = _fs.exists
+  let readfile = _fs.readfile
+  ```
+  这个过程为整体加载fs模块（加载所有的fs方法），生成对象_fs， 再从_fs读取这两个方法，即为运行时才能得到对象，因此无法在编译时静态优化
+  ```js
+  //ES6 modules
+  import { exists, readfile } from "fs"
+  ```
+  这个过程仅引入加载了这两个方法，其他方法不加载
+- ES6要求引入的模块必须存在，因为编译时必须要读取里面的内容查验，不能出现在运行if else里，而commonJS在编译的时候不管对方是否存在（不校验），可以运行时才去读取
+  ```js
+  //ES6 modules
+  import foo from "./foo.js"
+  //commonJS
+  if (condition) {
+    foo = require("./foo.js")
+  }
+  ```
