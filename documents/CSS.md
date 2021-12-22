@@ -1,23 +1,23 @@
 ### ➤ [CSS权重](https://juejin.cn/post/6844904014962753544)
-- 内联样式：一个标记为1， 依次累加 1 0 0 0
-- ID选择器：一个标记为1， 依次累加 0 1 0 0
-- class, 属性， 伪类(:hover, visited, link, active)：有一个标记为1， 依次累加 0 0 1 0
-- 伪元素(before, after)，元素标签： 0 0 0 1
-- 通配选择器(*), +, >, ~： 不加权重
-- !important高于所有未指定，多个规则中同一属性都指定的话则相抵，依照上述情况比较计算 
+- **内联样式**：一个标记为1， 依次累加 1 0 0 0
+- **ID选择器**：一个标记为1， 依次累加 0 1 0 0
+- **class, 属性， 伪类(:hover, visited, link, active)**：有一个标记为1， 依次累加 0 0 1 0
+- **伪元素(before, after)，元素标签**： 0 0 0 1
+- __通配选择器(*), +, >, ~__： 不加权重
+- <code>!important</code>高于所有未指定，多个规则中同一属性都指定的话则相抵，依照上述情况比较计算 
 
 ---
 ### ➤ [BFC(Block Format context/块级格式化上下文)](https://www.cnblogs.com/chen-cong/p/7862832.html)
 内部元素和外部元素互不影响
 - 创建
-1. html根
-2. float
-3. 绝对定位
-4. overflow非visible
-5. display为table或flex
+  1. html根
+  2. float
+  3. 绝对定位
+  4. overflow非visible
+  5. display为table或flex
 - 用处
-1. 清除浮动
-2. 防止同一BFC相领元素外边距重叠
+  1. 清除浮动: 未定高度的父盒子内，子类float没有办法撑开父容器，给父容器加上<code>overflow: hidden</code>，可撑开父容器，因为需要计算父容器高度才能知道在哪个地方遮盖，所以触发了高度的重新计算
+  2. 防止同一BFC相领元素外边距重叠
 
 ---
 ### ➤ [弹盒及响应式](https://www.jianshu.com/p/c6cae35e2b93) 应用
@@ -98,7 +98,7 @@
   }
 </style>
 ```
-5. 伪类
+5. 伪类: 仅适用于子类为点或线
 ```html
 <div class="parent">
   <div class="child"></div>
@@ -128,7 +128,7 @@
 - 各单位：
   + **px**: 绝对单位，精确按像素显示，chrome强制最小为12px, 可使用transform: scale hack   
   + **em**: 相对单位，基准为父节点字体大小，自身定义了font-size的话则整个页面1em都是不一样的值   
-  + **rem**(css3): 相对单位，类root em， 根椐节点html字体大小计算，chrome/firefox/IE9   
+  + **rem**(css3): 相对单位，类root em， 根椐节点html字体大小计算(例<code>1 rem = document.documentElement.clientWidth/10 + "px"</code>)，chrome/firefox/IE9   
   + **vw, vh**: 视窗宽高，IE9+部份支持   
   + **vmin, vmax**: vw和vh中较小/大的 
     

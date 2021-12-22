@@ -1,5 +1,5 @@
 ### ➤ 普通函数与箭头函数
-- 箭头函数不创建自己的this，只从自己作用域链的上一层继承this。普通函数则引入了bind方法来设置函数this值
+- 箭头函数没有**自己的**this，只从自己作用域链的上一层继承this。普通函数则引入了bind方法来设置函数this值
 ```js
 function Person () {
   this.age = 0
@@ -213,8 +213,6 @@ Object.assign(Point.prototype, {
 //不可枚举性
 Object.keys(Point.prototype) //[]
 Object.getOwnPropertyNames(Point.prototype) // ["constructor", "toString", "getPosition", "toValue", "showDiff"]
-
-
 ```
 对比
 ```js
@@ -253,7 +251,7 @@ new Foo() instanceof Foo //false
 > 
 > **namespace模式**: 减少全局变量，解决命名冲空，数据不安全，外部可直接修改内部数据
 >
-> **IIFE模式**: 匿名函数自调用（闭包），将数据及方法封装到一个函数内部，通过给window添加属性来向外暴露接口
+> **IIFE模式**: 立即调用函数表达式（闭包），将数据及方法封装到一个函数内部，通过给window添加属性来向外暴露接口
 
 1. **CommonJS**
 - Node应用模块采用了此种方式，每个文件为一个模块，有自己的作用域，文件内变量、函数、类私有，在服务器端是同步加载，浏览器端需要提前编译打包 browserify
@@ -309,15 +307,15 @@ require(['module1', 'module2'], function () {})
 ### ➤ HTTP/HTTPS([ref](https://juejin.cn/post/6844903471565504526))
 1. **HTTP**：超文本转输协议，明文方式发送，无数据加密，不适合传输敏感信息。是TCP的一种
 2. **HTTPS**：安全套接字层超文本转输协议，在HTTP的基础上加入了SSL协议，SSL（security sockets layer）依靠证书难证服务器身份，为通信加密。
-- 作用：1建立信息安全通道，2确认网站真实性, 客户端TLS来解析证书
-- 优点：安全性，谷歌SEO针对HTTPS有排名提升
-- 缺点：会使页面加载时间延长至50%，增加10%到20%的耗电，影响缓存，增加数据开销和功耗，加密范围比较有限，SSL证书信用链体系不安全，SSL需要绑定IP但不能在同一IP上绑定多个域名
-- 流程：client将自己支持的加密规则发送 -> server从中选出一组算法将自己身份信息以证书形式发回，内含网站地址，加密公钥，证书颁发机构
+   - 作用：1建立信息安全通道，2确认网站真实性, 客户端TLS来解析证书
+   - 优点：安全性，谷歌SEO针对HTTPS有排名提升
+   - 缺点：会使页面加载时间延长至50%，增加10%到20%的耗电，影响缓存，增加数据开销和功耗，加密范围比较有限，SSL证书信用链体系不安全，SSL需要绑定IP但不能在同一IP上绑定多个域名
+   - 流程：client将自己支持的加密规则发送 -> server从中选出一组算法将自己身份信息以证书形式发回，内含网站地址，加密公钥，证书颁发机构
 3. HTTP和HTTPS区别：
-- HTTPS需要到ca申请证书，免费较少
-- HTTP明文转输，HTTPS加密
-- 两者使用了完全不同的连接方式，端口不一样，HTTP为80，HTTP为443
-- HTTP连接简单无状态， HTTPS更安全
+   - HTTPS需要到ca申请证书，免费较少
+   - HTTP明文转输，HTTPS加密
+   - 两者使用了完全不同的连接方式，端口不一样，HTTP为80，HTTP为443
+   - HTTP连接简单无状态， HTTPS更安全
 
 ---
 #### ➤ TCP握手(3)/挥手(4)：
@@ -335,10 +333,10 @@ require(['module1', 'module2'], function () {})
 1. XMLHttpRequest: 可获取任何类型的数据，可支持HTTP外的协议（FTP，file://）
 2. EventSource: 服务器单向推送，一个EventSource实例会对HTTP服务开启持久化连接，以text/event-stream格式发送事件，应用于处理社交媒体更新，新闻提要等
 3. Websocket: 全双工通信([ref](http://websocket.org/aboutwebsocket.html))
-- 握手由HTTP进行，此后于HTTP无关
-- 通道由client发起HTTP连接，服务器收到后打开对应的HOST TCP/IP连接。通道建立后可以无阻挡地通过代理Proxy
-- client通过 Upgrade:websocket 告知服务器，服务器接收后同意将协议转为websocket（响应101状态码），然后HTTP连接终止并被websocket连接替代
-- socket.io使用：options.transports指定类型，可选websocket, polling, polling-xhr, polling-jsonp，[demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/api/socket.js)
+   - 握手由HTTP进行，此后于HTTP无关
+   - 通道由client发起HTTP连接，服务器收到后打开对应的HOST TCP/IP连接。通道建立后可以无阻挡地通过代理Proxy
+   - client通过 Upgrade:websocket 告知服务器，服务器接收后同意将协议转为websocket（响应101状态码），然后HTTP连接终止并被websocket连接替代
+   - socket.io使用：options.transports指定类型，可选websocket, polling, polling-xhr, polling-jsonp，[demo](https://github.com/ErgoSphere/es-plugins/blob/master/src/api/socket.js)
 
 ---
 ### ➤ 多标签通信
@@ -349,37 +347,36 @@ require(['module1', 'module2'], function () {})
 ---
 #### ➤ 输入网址后浏览器做了什么事(浏览器渲染过程)
 - **请求过程**
-1. 搜索浏览器自身DNS缓存，如有缓存直接访问已缓存的IP地址
-2. 无缓存，搜索系统自身DNS缓存，读取HOST文件，是否有DNS IP地址映射
-3. 向运营商发送DNS解析请求，获得IP地址
-4. 向IP地址所在server进行3次TCP握手建立连接
-5. 建立连接之后向server发送HTTP请求
-6. server接收请求后将处理结果发回，如HTML页面代码等
-7. client的内核和JS引擎解析和渲染页面，内含的JS，CSS，图片等资源也将通过HTTP请求进行加载
-8. client根椐拿到的资源进行页面渲染呈现给用户，如无后续操作则向服务器端发起TCP四次挥手断开
+  1. 搜索浏览器自身DNS缓存，如有缓存直接访问已缓存的IP地址
+  2. 无缓存，搜索系统自身DNS缓存，读取HOST文件，是否有DNS IP地址映射
+  3. 向运营商发送DNS解析请求，获得IP地址
+  4. 向IP地址所在server进行3次TCP握手建立连接
+  5. 建立连接之后向server发送HTTP请求
+  6. server接收请求后将处理结果发回，如HTML页面代码等
+  7. client的内核和JS引擎解析和渲染页面，内含的JS，CSS，图片等资源也将通过HTTP请求进行加载
+  8. client根椐拿到的资源进行页面渲染呈现给用户，如无后续操作则向服务器端发起TCP四次挥手断开
 - **渲染过程**（上述7, 8时进行）
-1. 解析收到的文档，根椐文档的内容构建DOM树（DOM元素 + 属性节点）
-2. 根椐CSS生成CSSOM规则树
-3. 根椐DOM树和CSSOM规则树生成渲染树（render tree）。渲染对象为渲染树的节点，是一个含大小颜色的矩形。渲染对象与DOM对象相对应（非一对一），不可见的DOM对象不会被插入渲染树。
-4. 生成渲染树后，浏览器会根椐渲染树进行布局（回流/自动重排）
-5. 布局完成后进行绘制（对象paint）
+  1. 解析收到的文档，根椐文档的内容构建DOM树（DOM元素 + 属性节点）
+  2. 根椐CSS生成CSSOM规则树
+  3. 根椐DOM树和CSSOM规则树生成渲染树（render tree）。渲染对象为渲染树的节点，是一个含大小颜色的矩形。渲染对象与DOM对象相对应（非一对一），不可见的DOM对象不会被插入渲染树。
+  4. 生成渲染树后，浏览器会根椐渲染树进行布局（回流/自动重排）
+  5. 布局完成后进行绘制（对象paint）
 - **浏览器渲染方式**： Flow Based Layout
-- 由于浏览器使用流式布局，对 Render Tree 的计算通常只需要遍历一次就可以完成，但 table 及其内部元素除外，他们可能需要多次计算，通常要花 3 倍于同等元素的时间
+- 由于浏览器使用流式布局，对Render Tree的计算通常只需要遍历一次就可以完成，但table及其内部元素除外，他们可能需要多次计算，通常要花 3 倍于同等元素的时间
 
 ---
 ### ➤ 回流和重绘
 - 回流：回流是布局或者几何属性需要改变。回流必定会发生重绘，重绘不一定会引发回流。
 - 重绘：由于节点的集合属性发生改变或者由于样式改变而不会影响布局的，成为重绘，例如 outline、visibility、color、background-color 等
 - 优化：
-1. 避免使用强制渲染刷新队列的函数，如width, height, getBoundingClientRect, scrollTop, offsetTop等
-2. 使用visibility（重绘）替换display: none（回流）
-3. 避免使用table
-4. 避免使用css表达式（回流）
-5. 动画效果应用到 position 属性为 absolute 或 fixed 的元素上
+  1. 避免使用强制渲染刷新队列的函数，如width, height, getBoundingClientRect, scrollTop, offsetTop等
+  2. 使用visibility（重绘）替换display: none（回流）
+  3. 避免使用table
+  4. 避免使用css表达式（回流）
+  5. 动画效果应用到 position 属性为 absolute 或 fixed 的元素上
 
 ---
 ### ➤ ES6转ES5思路及babel原理
-
 - 代码字符串解析成AST（抽象语法树/Abstract Syntax Tree）: ES6 AST → ES5 AST → 再次生成代码字符串
 - babel转译：解析parse → 转换transfer(babel-traverse) → 生成generate (babel-generator) 
 
@@ -414,43 +411,40 @@ unload event
 2. 在事件中发送同步xhr：延迟页面卸载
 3. 在事件中使用image src：延迟页面卸载 
 4. 在事件中使用创建个几秒中的no-op循环来延迟页面卸载并向服务器发送信息
-5. （最优解）navigator.sendBeacon: 通过HTTP将少量数据**异步**传输到服务器
+5. （最优解）<code>navigator.sendBeacon</code>: 通过HTTP将少量数据**异步**传输到服务器
 
 ---
 ### ➤ [MVVM, MVC, MVP](https://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html)
 1. **MVC**
-- Model → View → Controller → Model : 单向通信
-- view发送指令到controller, controller完成业务逻辑，要求model改变状态，然后model将新数据发送到view, 用户得到反馈
+   - Model → View → Controller → Model : 单向通信
+   - view发送指令到controller, controller完成业务逻辑，要求model改变状态，然后model将新数据发送到view, 用户得到反馈
 2. **MVP**
-- View ⇋ Presenter ⇋ Model : 双向, view 不和 Model通信
+   - View ⇋ Presenter ⇋ Model : 双向, view 不和 Model通信
 3. **MVVM**
-- Model ⇋ View ↔︎ ViewModel: Model与View双向通信，view和ViewModel双向绑定
+   - Model ⇋ View ↔︎ ViewModel: Model与View双向通信，view和ViewModel双向绑定
 
 ---
 ### ➤ JS对象转换
 1. 对象到字符串
-- 如对象有toString()，则调用该方法
-- 如无toString()或此方法不返回一个原始值，则调用valueOf()
-- 两者都无，此时抛出一个类型错误异常
+   - 如对象有toString()，则调用该方法
+   - 如无toString()或此方法不返回一个原始值，则调用valueOf()
+   - 两者都无，此时抛出一个类型错误异常
 2. 对象到数字
-- 如有valueOf()，则调用该方法
-- 如无valueOf()，则调用toString()
-- 两者都无，此时抛出一个类型错误异常
+   - 如有valueOf()，则调用该方法
+   - 如无valueOf()，则调用toString()
+   - 两者都无，此时抛出一个类型错误异常
 
 ---
 ### ➤ Get请求传参长度限制
-
 - HTTP协议未作规定，最大长度是浏览器和服务器限制URI的长度，不同的浏览器和服务器限制的长度不一样
 - 要支持IE，则最大长度为2083byte，若只支持chrome，则最大长度为8182byte
 
 ---
 ### ➤ 为什么使用setTimeout实现setInterval
-
-- setInterval是将事件放在任务队列中，当空闲时才取事件执行，如果有执行栈时间过长，多个计时器则不能按指定时间执行任务
+setInterval是将事件放在任务队列中，当空闲时才取事件执行，如果有执行栈时间过长，多个计时器则不能按指定时间执行任务
 
 ---
 ### ➤ URL和URI的区别
-
 - URI：统一资源标识符，http://www.xxx.com/html/html1, 命名机制+主机名+资源自身路径
 - URL：统一资源定位器，http://www.11.com:9000/aaa, schema://host:port/path, schema有http, ftp, gopher等
 - URN：统一资源命名：mailto:java-net@java.sun.com
@@ -458,45 +452,41 @@ unload event
 
 ---
 ### ➤ 内容安全策略CSP
-
 - 本质为建立白名单，只需配置规则，拦截则由浏览器自身实现，可以通过这种方式减少xss攻击
 - 开启：
-1. 设置http request header的Content-Security-Policy
-```
-//只许加载本站资源
-Content-Security-Policy:default-src 'self'
-//只许加载HTTPS协议的图片
-Content-Security-Policy:img-src https://*
-//允许任何来源
-Content-Security-Policy:child-src 'none'
-```
-2. meta标签
-```html
-<meta http-equiv="Content-Security-Policy" />
-```
+  1. 设置http request header的Content-Security-Policy
+    ```
+    //只许加载本站资源
+    Content-Security-Policy:default-src 'self'
+    //只许加载HTTPS协议的图片
+    Content-Security-Policy:img-src https://*
+    //允许任何来源
+    Content-Security-Policy:child-src 'none'
+    ```
+  2. meta标签
+    ```html
+    <meta http-equiv="Content-Security-Policy" />
+    ```
 
 ---
 ### ➤ 事件流传播过程
-
 - 事件捕获 → 事件目标 → 事件冒泡
 - document.addEventListener(..., capture), capture为boolean， ture为捕获，false为冒泡
 
 ---
 ### ➤ Reflect.ownKeys vs Object.keys
-
 - 两者都得到对象属性的集合，以数组形式返回
 - Reflect.ownKeys是所有属性，包括不可枚举和symbol；Object.keys仅包含可枚举属性
 
 ---
 ### ➤ class的继承和prototype的继承一样吗
-
 - class为ES6继承，prototype为ES5的原型链继承
 - class的子类没有自己的this对象，先创造父类的this对象（所以先调用super），再用子类的构造函数修改this
 - prototype实质为先创造子类的this对象，再将父类方法通过Parent.apply(this)添加到子类上
 - class内部定义的方法不可枚举，不存在变量提升
 
 ---
-### ➤ 浏览器请求头method等前为什么有冒号（:method）
+### ➤ 浏览器请求头method等前为什么有冒号（:method:）
 因为使用了http2协议进行转输，且可以压缩传输体积
 
 ---
@@ -510,13 +500,11 @@ Content-Security-Policy:child-src 'none'
 
 ---
 ### ➤ html渲染和canvas渲染性能
-
 - DOM渲染更易于构建复杂场景，但需要性能成本，需要经过层层规则计算（保留模式）
 - Canvas不储存额外的渲染信息，允许直接发送绘图命令到GPU，直接由显卡渲染（直接模式）
 
 ---
 ### ➤ Uint8Array 和 Uint8ClampedArray
-
 - 皆常用于canvas
 - Uint8ClampedArray主要用于canvas特殊场景，如imageData
 - 如果输入值为0～255整数，则两者结果一致
@@ -532,3 +520,47 @@ Content-Security-Policy:child-src 'none'
 ### ➤ Reflect
 1. 能避免某些Object方法造成的抛错，如Object.defineProperty修改不可写的对象时会抛错，而Reflect.defineProperty(obj, name, desc)会正常运行返回false。
 2. 与Proxy对象方法一一对应，避免如Proxy默认行为被修改，总可以在Reflect上获取默认行为
+
+---
+### ➤ 防抖和节流
+- 防抖：事件触发n秒后才回调，如果n秒内又被触发，则重新计时。如搜索输入时, n秒后才查询，继续监听到输入对象，重新计时
+  ```js
+  //简单的防抖函数
+  function _debounce (fn, delay) {
+    let timer
+    return function() {
+      let _this = this //取 debounce作用域
+      let args = arguments
+      if (timer) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(() => {
+        fn.apply(_this, args)
+      }, delay)
+    }
+  }
+  ```
+  应用： 
+    1. 手机号，邮箱输入检测
+    2. 搜索，只需用户最后一次输入完再发送请求
+    3. 窗口resize，只计算调整完成后，防止重复渲染
+- 节流：每隔一段时间只执行一次函数。如搜索时，当函数执行后在n秒内，有新输入也不执行，到了时间再执行
+  ```js
+  function throttle (fn, delay) {
+    let timer
+    return function() {
+      let _this = this, args = arguments
+      if (timer) {
+        return 
+      }
+      timer = setTimeout(() => {
+        fn.apply(_this, args)
+        timer = null
+      }, delay)
+    }
+  } 
+  ```
+  应用：
+    1. 滚动加载，加载更多或到底部的监听
+    2. 谷歌搜索框联想功能
+    3. 高频提交
