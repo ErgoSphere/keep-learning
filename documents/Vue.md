@@ -274,3 +274,28 @@ export default {
     }
   }
   ```
+  
+---
+### Vue pc端自适配
+```
+yarn add lib-flexible-computer px2rem-loader postcss-px2rem --dev
+```
+```js
+//main.js
+import "lib-flexible-computer"
+//vue.config.js
+module.exports = {
+  css: {
+    loaderOptions: {
+      css: {},
+      postcss: {
+        plugins: [
+          require("postcss-px2rem")({
+            remUnit: 192 //设计稿尺寸/10
+          })
+        ]
+      }
+    },
+  },
+}
+```
