@@ -23,6 +23,10 @@ git init
 ```
 git clone [remote address]
 ```
+- 当前项目添加远程仓库
+```
+git remote add [shortname] [remote address]
+```
 - 本地仓库同步到远程仓库
 ```
 git push 
