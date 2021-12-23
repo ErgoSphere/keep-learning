@@ -154,6 +154,7 @@ min-width > max-width > width (即使!important)
 
 - [https://juejin.cn/post/6844903772968206350](https://juejin.cn/post/6844903772968206350)
 - [https://codesandbox.io/s/react-picture-preview-flip-demo-m5zbm?file=/src/App.js](https://codesandbox.io/s/react-picture-preview-flip-demo-m5zbm?file=/src/App.js)
+
 ---
 ### ➤ CSS像素，物理像素, viewport等
 1. ** CSS像素(CSS pixels)：px**
@@ -189,6 +190,104 @@ document.write('<meta name="viewport" content="width=device-width, initial-scale
 document.getElementsByTagName("meta")[0].setAttribute("content", "width=device-width")
 
 ```
+
+---
+### ➤ webp显示问题
+低版本safari不一定显示
+```js
+//检测是否支持webp
+const webpSupport = () => {
+  let elem = document.createElement("canvas")
+  if (elem.getContext && elem.getContext("2d")) {
+    return elem.toDataURL("image/webp").indexOf("data:image/webp") === 0
+  } else {
+    return false //old browser like IE8, canvas is not supported
+  }
+}
+```
+
+---
+### ➤ 什么时候需要用到@2x, @3x的图片
+- devicePixelRatio为2/3的时候
+  ```scss
+  @mixin bg-image($url) {
+    background-image: url($url + "@2x.png");
+    @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+      background-image: url($url + "@3x.png")
+    }
+  }
+  .logo {
+    $size: 30px;
+    width: $size;
+    height: $size;
+    background-size: $size $size;
+    background-repeat: no-repeat;
+    @include bg-iamge("logo")
+  }
+  ```
+
+---
+### ➤ 实现1物理像素(1dp)边框
+1. 由<code>window.devicePixelRatio</code>或逆算出对应px值（可能导致浏览器取px差异，兼容性差
+2. 媒体查询，有同上毛病，且为非标准特性, Float px values may render differently on different browsers
+   ```css
+   .border {
+     border: 1px solid #999;
+   }
+   @media screen and (-webkit-min-device-pixel-ratio: 2) {
+     .border {
+       border: 0.5px solid #999;
+     }
+   }
+   @media screen and (-webkit-min-device-pixel-ratio: 3) {
+     .border {
+       border: 0.333333px solid #999;
+     }
+   }
+   ```
+3. viewport + rem: 动态修改meta
+   ```html
+   <meta name="viewport" id="dynamicViewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+   ```
+   ```js
+   let vp = document.getElementById("dynamicViewport")  
+   let value = (1/window.devicePixelRatio).toFixed(2)
+   let content = "width=device-width, initial-scale=" + value + ", maximum-scale=" + value + ", minimum-scale=" + value + ", user-scalable=no"
+   vp.setAttribute("content", content)
+   //字体大小
+   let docEl = document.documentElement
+   let fontSize = 10 * (docEl.clientWidth/320) + "px"
+   docEl.style.fontSize = fontSize
+   ``` 
+4. 使用border-image: 圆角可能模糊
+   ```css
+   border-image-1px {
+     border-width: 1px 0;
+     -webkit-border-image: url("border.png") 2 0 stretch;
+     border-image: url("border.png") 2 0 stretch;
+   }
+   ```
+5. background-image渐变：无法实现圆角
+   ```css
+   .border {
+      background-image: linear-gradient(180deg, red, red 50%, transparent 50%), linear-gradient(270deg, red, red 50%, transparent 50%), linear-gradient(0deg, red, red 50%, transparent 50%), linear-gradient(90deg, red, red 50%, transparent 50%);
+      background-size: 100% 1px,1px 100% ,100% 1px, 1px 100%;
+      background-repeat: no-repeat;
+      background-position: top, right top,  bottom, left top;
+      padding: 10px;
+   }
+   ```
+6. box-shadow: 不好控制深色
+   ```css
+   div {
+     box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.5)
+   }
+   ```
+7. transform scale + devicePixelRatio(或媒体查询)
+   ```
+   scaleY = 1 / devicePixelRatio
+   ```
+
 ---
 ### ➤ 其它问题
 1.

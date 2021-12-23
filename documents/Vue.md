@@ -30,7 +30,7 @@ console.log(book.name) // "Opps!"
 2. vuex
 3. 每个new Vue实例的子组件中，根实例可通过$root property访问([ref](https://cn.vuejs.org/v2/guide/components-edge-cases.html)), 父组件实例可通过$parent访问
 4. 通过ref访问子组件实例或子元素
-5. 依赖注入，指定父组件可提供给后代组件数据/方法， 父provide， 子inject([demo1](https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dependency-injection?file=/index.html:618-624), [demo2](https://v3.cn.vuejs.org/guide/component-provide-inject.html#%E5%A4%84%E7%90%86%E5%93%8D%E5%BA%94%E6%80%A7))
+5. 依赖注入，指定父组件可提供给后代组件数据/方法， 父provide， 多层子inject([demo1](https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dependency-injection?file=/index.html:618-624), [demo2](https://v3.cn.vuejs.org/guide/component-provide-inject.html#%E5%A4%84%E7%90%86%E5%93%8D%E5%BA%94%E6%80%A7))
 6. vue.prototype["object_name"]
 7. 构建event bus
 bus.js
@@ -135,7 +135,6 @@ new Vue({
 
 ---
 ### ➤ Vue打包vendor过大解决
-    
 - vue-router懒加载
 - gzip压缩
 - CDN引入js和css
@@ -144,18 +143,118 @@ new Vue({
 
 ---
 ### ➤ Vue切换路由时保存草稿功能实现
-
 - beforeRouteLeave
 - keep-alive
 
 ---
 ### ➤ Vue的模板语法引擎？
-
 - Vue使用的Mustache模板引擎（双大括号语法）
 
 ---
 ### ➤ keep-alive使用注意
-
 - 初次进入：created → mounted → activated
 - 退出时触发deactivated
 - 再次进入仅触发activated
+
+---
+### ➤ vue动态组件 + keep-alive
+```
+<keep-alive>
+<component :is="current"></component>
+</keep-alive>
+<script>
+import ComponentA from "./ComponentA"
+import ComponentB from  "./ComponentB"
+export default {
+  components: {
+    ComponentA,
+    ComponentB
+  },
+  
+  data () {
+    return {
+      current: "ComponentA"
+    }
+  }
+}
+</script>
+```
+
+---
+### ➤ Vue diff算法（未够详细解答
+- 实现
+    1. 由真实DOM生成虚拟DOM树
+    2. 当某个DOM节点数据变化时，生成一个新的Vnode
+    3. 新的Vnode和旧的oldVnode进行对比
+    4. 通过patch函数给真实DOM打补丁
+- 优点: Vue的虚拟DOM更新为**异步更新队列**，如想马上拿到DOM更新后的DOM信息，使用<code>Vue.nextTick</code>
+- Vue diff算法只作同层级元素比较，不跨级
+
+---
+### ➤ vue2到vue3的双向绑定原理由Object.defineProperty改为Proxy，优势是什么
+1. Proxy优势：
+- 可以直接监听对象非属性， 可直接监听数组变化
+- 返回的是新对象，可以只操作新对象达到目的，Object.defineProperty只能遍历对象属性进行更改
+2. Object.defineProperty: 兼容性更佳
+
+---
+### ➤ vue-router实现原理，配置history mode和hash mode方式
+- **hash mode**
+    - hash mode是vue-router的默认模式，hash指url描点，当描点发生变化时，浏览器只修改访问历史记录，不重新获取页面，根椐描点值渲染指定的dom
+    - 原理：
+        - 改变描点: <code>location.hash = "/hashpath"</code>
+        - 监听描点变化：
+          ```js
+           window.addEventListener("hashchange", () => {
+             const hash = window.location.hash.substr(1)
+           }) 
+          ```
+- **history mode**
+    - 原理：
+        - 改变url: <code>pushState</code>或<code>replaceState</code>, url变化，浏览历史变化，但不向后台发送请求
+        - 监听url变化：<code>popstate event</code>
+            ```js
+            window.addEventListener("popstate", () => {
+              const path = window.location.pathname
+            })
+            ```
+- **服务端支持**
+    - 使用hash mode时，手动刷新浏览器可正常显示，history mode下刷新可能会出现问题，服务器端会查找是否有相匹配的html文件，在单页应用下，服务器端只有一个<code>index.html</code>, 此时匹配不到，会提示404。因此需要服务端对history进行支持。
+        - node服务器
+            ```js
+            const path = require("path")
+            const history = require("connect-history-api-fallback")
+            const express = require("express")
+            const app = express()
+            app.use(history()) // 注册history模式中间件
+            app.use(express.static(path.join(__dirname, '../web'))) //处理表态资源中间件，假设网站根目录../web
+            app.listen(1122, () => {
+              console.log("service start, port 1122")
+            })
+            ```
+        - nginx代理：修改配置文件添加history mode support
+          ```
+          location / {
+            root html;
+            index index.html inde.htm;
+            #尝试读取当前请求路径（$uri），如果读不到则读$uri/这件文件夹下的首页
+            #都读不到则返回根目录中的index.html
+            try_files $uri $uri/ /index.html;
+          }
+          ```
+- 渲染router-view组件
+    1. 通过Vue.observable在router实例上创建一个保存当前路由的监控对象current
+    2. 当浏览器地址变化时，修改current
+    3. 在<code>router-view</code>组件中监听current变化，当current变化时获取用户注册的相应component，并利用h()将component渲染为vnodes，更新页面视图
+- 使用
+  ```js
+  //3.x
+  const router = new VueRouter({
+    mode: "history"
+  })
+  //4.x
+  import { createRouter, createWebHashHistory, createWebHistory } from "vue-router"
+  const router = createRouter({
+    history: createWebHistory() || createWebHashHistory()
+  })
+  ```

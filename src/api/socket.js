@@ -1,5 +1,6 @@
 /**
  * Created by ErgoSphere on 2021/3/5
+ * original js: https://developer.mozilla.org/zh-CN/docs/Web/API/WebSocket
  **/
 import io from "socket.io-client"
 
