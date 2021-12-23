@@ -258,3 +258,19 @@ export default {
     history: createWebHistory() || createWebHashHistory()
   })
   ```
+
+---
+### vue性能优化
+- 避免响应所有数据：在data的数据都会增加getter, setter且收集watcher，不需要响应的数据可直接定义在实例上
+- 纯展示不改变的大量数据用<code>Object.freeze</code>来冻结，避免vue劫持数据
+  ```js
+  export default {
+    data : () => ({
+      users: {}
+    }),
+    async created() {
+      const users = await axios.get("/api/users")
+      this.users = Object.freeze(users)
+    }
+  }
+  ```

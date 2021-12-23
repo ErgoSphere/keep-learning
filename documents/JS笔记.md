@@ -615,7 +615,7 @@ setInterval是将事件放在任务队列中，当空闲时才取事件执行，
   ```
 
 ---
-### ➤ 11) Set和Map的用法，Map和Object的区别
+### ➤ Set和Map的用法，Map和Object的区别
 - Map和Object的区别：
     - Map的遍历按照推入顺序，Object无序，遍历时则按照浏览器ASCII排序
     - Map可由size得出长度，Object无法直接得出长度
@@ -671,6 +671,7 @@ setInterval是将事件放在任务队列中，当空闲时才取事件执行，
   }
   foo(1, 2, 3, 4)//[1,2,3,4]
   ```
+  
 ---
 ### ➤ vuex页面刷新数据丢失处理
 - store的数据保存在运行内存中，刷新时会重载实例，被重新初始化
@@ -681,3 +682,45 @@ setInterval是将事件放在任务队列中，当空闲时才取事件执行，
 - vue作为SPA在一个页面上跳转路由，sessionStorage较为合适
     - sessionStorage可以保证打开页面时sessionStorage数据为空
 
+---
+### ➤ Promise及其状态
+- 表示一个**异步操作**的最终完成 (或失败)及其结果值
+- 状态：
+  - pending: 初始状态
+  - fulfilled：操作成功完成
+  - reject：操作失败
+- fulfilled + reject = settled
+- Promise.resolve(fulfilled)静态方法
+
+---
+### indexedDB
+- 异步操作（同步操作曾用于web workers，现已从规范中移除）
+
+---
+### 数据存储类型
+- 持久化存储：只有用户选择清理才会被清理
+- 临时存储：当最近一次使用时Storage limits达到限制时会被自动清理（LRU Policy）
+  - LRU Policy: 磁盘空间满时，配额管理器按最近最少使用的源开始清理，直到浏览器不再超过限制
+
+---
+### HTTP缓存
+- web缓存发现请求的资源被存储的时候，会拦截请求，返回该资源拷贝，而不会去源服务器重新下载
+- 种类：
+  - 私有缓存（浏览器缓存）
+  - 共享缓存（代理缓存）
+- 常见的HTTP缓存只能存储GET响应
+- 缓存控制
+  - cache-control: 请求头和响应头都支持
+    ```
+    Cache-Control: no-store //不得缓存任何请求和响应内容
+    Cache-Control: no-cache //缓存但重新验证，请求会发至服务器，服务器验证所描述缓存是否过期，未过期则使用本地缓存副本
+    Cache-Control: public
+    Cache-Control: private // 默认
+    Cache-Control: max-age=3156000 //最大缓存时间，距离请求发起的时间秒数
+    Cache-Control: must-revalidate //必须验证
+    ```
+  - Pragma头：效果与<code>Cache-Control: no-cache</code>相同，但不能完全替代，用于兼容
+  - 缓存驱逐：资源过了过期时间后，不会直接删除。当客户端发起一个请求，缓存检索到有对应的已过期副本，会先将此请求附加<code>If-None-Match</code>头，发给服务器，若服务器返回304（响应无实体信息）则表示副本是新鲜的，可以节省一些带宽，如判读已过期，则带有该资源的实体返回
+  - 缓存寿命：先看max-age，没有则看Expires（比较Expires和头Date属性的值），两者都没有则看Last-Modified(<code>寿命 = (Date - Last-Modified) * 10%</code>)
+  - 更新：<code>URL + 版本号/时间戳</code>
+  - Vary：<code>当前请求 Vary = 缓存请求头 Vary = 缓存响应头 Vary</code>，才使用缓存的响应。<code>Vary: User-Agent</code>可避免缓存服务器错误地把移动端内容输出到桌面端
