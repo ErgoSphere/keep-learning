@@ -289,6 +289,10 @@ const webpSupport = () => {
    ```
 
 ---
+### 盒模型
+- IE盒模型（border-box）: width包括padding和border
+- css盒模型 (content-box): width不包括padding和border
+---
 ### ➤ 其它问题
 1.
 >**Q**: fixed定位没有按照窗口视图
