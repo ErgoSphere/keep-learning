@@ -383,9 +383,12 @@ require(['module1', 'module2'], function () {})
 ---
 ### ➤ 异步解决方案
 1. 回调函数：无法catch错误
-2. promise: 无法取消promise
+2. promise: 无法取消promise（网络请求已发出
+   - 可通过返回reject来实现中断的处理
 3. Generator: 可以控制函数执行
+   - yeild 
 4. await/async: 将异步改为同步，当异步无依赖性而使用时性能降低
+   - Generator语法糖 
 
 ---
 ### ➤ 浏览器缓存
@@ -819,3 +822,48 @@ let o3 = Object.assign({}, {
 //原型链
 
 ```
+
+---
+### Promise中断
+- Promise本质上是无法被终止的
+- 通过<code>Promise.race()</code>使其中一个promise reject的情况，无视另外的promise的结果去达到中断的目的
+  ```typescript
+  interface CancellablePromiseFactory<T = unknown> extends Promise<T> {
+    abort?: (reasonToAbort: any) => void 
+  }
+  function cancellablePromiseFactory (executor) {
+    let abort //中断方法
+    const originPromise = new Promise(executor) //原始promise实例
+    const promiseToAbort = new Promise(
+      (_, reject) => (abort = reasonToAbort => reject(reasonToAbort)) // reject的值给abort
+    )
+    const cancellablePromise: CancellablePromiseFactory = Promise.race([
+      originPromise,
+      promiseToAbort
+    ])
+    cancellablePromise.abort = abort //将abort挂载到cancellablePromise上
+    return cancellablePromise
+  }
+  const cancellablePromise = cancellablePromiseFactory((resolve, reject) => {
+    setTimeout(() => {
+      console.log("after 10s")
+      resolve("resolve after 10s")
+    }, 10000)
+    setTimeout(() => {
+      console.log("after 11s")
+      reject("reject after 11s")
+    }, 11000)
+  })
+  cancellablePromise.then(console.log).catch(console.log).finally(() => {
+    console.log("finally")
+  })
+  setTimeout(() => {
+    cancellablePromise.abort("abort after 2s")
+  }, 20000)
+  //结果
+  //abort after 2s
+  //finally
+  //after 10s
+
+  ```
+  
