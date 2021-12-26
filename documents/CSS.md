@@ -292,6 +292,32 @@ const webpSupport = () => {
 ### 盒模型
 - IE盒模型（border-box）: width包括padding和border
 - css盒模型 (content-box): width不包括padding和border
+
+---
+### 图片显示模糊的解决方案
+- 使用<code>@media screen</code> + <code>devicePixelRatio</code>对应的倍率图片(@2x/@3x)
+  ```css
+  .image {
+    background-image: url("test.png");
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+    .image {
+       background-image: url("test@2x.png");
+    }
+  }
+  ```
+- 使用svg
+- 使用<code>image-set</code>
+  ```css
+  .image {
+    background-image: -webkit-image-set("test.png" 1x, "text@2x.png" 2x);
+  }
+  ```
+- 使用<code>img</code>标签的<code>srcset</code>属性，由浏览器自动根椐像素密码匹配显示
+  ```html
+  <img src="test.png" srcset="test@2x.png 2x, test@3x.png 3x" />
+  ```
+  
 ---
 ### ➤ 其它问题
 1.
