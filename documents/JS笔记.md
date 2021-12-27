@@ -972,4 +972,60 @@ let o3 = Object.assign({}, {
    console.log(p1.name) //李四
    console.log(p2.name) //张三
    ```
-  
+
+---
+### 跨域方法
+- 同源策略：协议，域名，端口全都一致
+- 方法：
+  - 以下三个标签允许跨域加载资源
+    ```html
+    <img src="xxx" />
+    <script src="xxx" />
+    <link    
+    ```
+  - Jsonp: 仅支持get方法
+    - 本质是利用<code>script</code>来实现跨域
+    - 调用失败时无不会返回http状态码
+    - 不安全（xss）
+    ```js
+    function jsonp ({url, params, cb}) {
+      return new Promise((resolve, reject) => {
+        let script = document.createElement("script")
+        window[cb] = function(data) {
+          resolve(data)
+          document.body.removeChild("script")
+        }
+         params = {...params, cb}
+         let arr = []
+         for(let key in params) {
+           arr.push(`${key}=${params[key]}`)
+         }
+         script.src = `${url}?${arr.join("&")}`
+         document.body.appendChild(script)
+      })
+    }
+    jsonp({
+      url: "",
+      params: {a: "1"},
+      cb: "show"
+    }).then(res => {
+      console.log(res)
+    })
+    ```
+  - cors: 需浏览器和服务器同时支持，几乎所有浏览器都支持，ie8和9需通过<code>XDomainRequest</code>实现
+    - 简单请求
+      - 请求方法仅限于<code>GET</code>, <code>HEAD</code>, <code>POST</code>
+      - Content-Type仅限于<code>text/plain</code>, <code>application/form-urlencoded</code>, <code>multipart/form-data</code>
+      - 配置<code>Access-Control-Allow-Origin</code>
+    - 复杂请求：浏览器先自动发送一个options请求，如果发现支持该请求再向真正的请求发送到后端，不支持则在控制台抛错
+      - 请求方法和Content-Type是除简单请求外的
+  - postMessage: 不同源的脚本采用异步方式进行有限通信
+    ```js
+    otherWindow.postMessage(message, targetOrigin, [transfer]) //otherwindow,如iframe的contentWindow
+    ```
+  - window.name
+  - location.hash
+  - document.domain: 仅限主域相同，子域不同
+  - websocket: 保证websocket会话的唯一性-建立链接的url加时间戳
+  - nginx
+  - http-proxy

@@ -20,9 +20,15 @@ export const equalArray = (x, y) => {
   return x.sort().toString() === y.sort().toString();
 };
 //数组去重
-export const arrayDereplicate = arr => {
+export const unique1 = arr => {
   return Array.from(new Set(arr));
 };
+export const unique2 = arr => {
+  let res = arr.filter((item, i, array) => {
+    return array.indexOf(item) === i
+  })
+  return res
+}
 //数组并集
 export const arrayUnion = (x, y) => {
   const a = new Set(x);
@@ -88,4 +94,5 @@ export const deep_clone = obj => {
 
   return ret;
 };
+
 
