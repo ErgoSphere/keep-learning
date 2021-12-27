@@ -571,8 +571,8 @@ setInterval是将事件放在任务队列中，当空闲时才取事件执行，
 ---
 ### ➤ WeakMap vs Map
 1. Map的鍵可以是任意类型，WeakMap只接受对象作为鍵(null)除外
-2. Map可被遍历，WeakMap不能被遍历
-3. Map的键与内存地址绑定，地址不一样即视为两个键；WeakMap的键为弱引用
+2. Map的键与内存地址绑定，地址不一样即视为两个键；WeakMap的键为弱引用，垃圾回收机制不将该引用考虑在内，所以对应的对象可能会被自动回收，回收后WeakMap自动移除和对应的键值对
+3. Map可被遍历，有size; WeakMap不能被遍历，不能清空（与键不计入，被垃圾回收机制忽略有关）
 
 ---
 ### ➤ 浏览器是单进程吗？进程和线程的区别？
@@ -866,4 +866,110 @@ let o3 = Object.assign({}, {
   //after 10s
 
   ```
+  
+---
+### 函数调用方式
+1. 一般形式的函数调用: **this表示全局对象window**
+   ```js
+   function foo () {
+     console.log(this)
+   }
+   foo() //window
+   ```
+2. 作为对象的方法调用: 方法一定要要宿主对象引导调用，即**对象.方法（参数）**。this表示引导方法的对象（宿主对象）
+   ```js
+   function foo () {
+     console.log(this)
+   }
+   let o = {}
+   o.fn = foo
+   o.fn() //o
+   ```
+   ```js
+   var length = 10
+   function fn () {
+     console.log(this.length)
+   }
+   var obj = {
+     length: 5,
+     method: function(fn) {
+       fn()
+       arguments[0]() //this指向arguments, 即调用this.length时指的是arguments的长度
+     }
+   }
+   obj.method(fn, 1)// 输出 10, 2
+   obj.method(fn, 1, 2, 3) //输出 10, 4
+   ```
+3. call & apply(上下文调用模式): call(参数list)，apply(参数对象)
+   ```js
+   function foo (num1, num2) {
+     return num1 + num2
+   }
+   let o = { name: "Lee" }
+   foo.apply(null, [123, 567]) //以window为上下文执行apply
+   foo.apply(o, [123, 567]) //以o为上下文执行apply
+   foo.call(null, 123, 456)
+   ```
+4. new间接调用（构造器模式）：this指函数本身
+   ``` js
+   var Person = function() {
+     this.name = "码农"
+     this.sayHello = function() {
+       console.log("hello")
+     }
+   }
+   var p = new Person() 
+   p.sayHello() // 输出hello
+   ```
+   - 执行过程：
+     1. 定义函数Person时，不执行函数体，所以javascript解释器不知道函数的内容
+     2. 接下来执行<code>new</code>关键字，创建对象，解释器开辟内存，得对对象的引用，新对象引用交给函数
+     3. 执行函数体，将传来的对象交给this, 即在构造方法中，this是对new创建出来的对象
+     4. 为this添加成员
+     5. 函数结束，返回this，将this交给左边的变量
+   - 所有需要由对象使的属性，必须用this引导
+   ```js
+   function Foo () {
+     getName = function() {
+       console.log(1)
+     }
+     return this
+   }
+   Foo.getName = function() {
+     console.log(2)
+   }
+   Foo.prototype.getName = function() {
+     console.log(3)
+   }
+   var getName = function () {
+     console.log(4)
+   }
+   function getName () {
+     console.log(5)
+   }
+   Foo.getName() //输出 2
+   getName() //输出 4
+   Foo().getName // 输出 1，执行Foo()时覆写全局getName, 再返回this, this指向window, 所以window.getName此时已变成console.log(1)
+   getName() //输出 1
+   new Foo.getName() //输出 2 , 以Foo.getName为构造函数实例化对象
+   new Foo().getName() //输出 3， 实例new Foo()自身上没有getName，从原型Foo.prototype上找
+   new new Foo().getName() // 输出3， 等于new (new foo().getName)() , 依旧是从原型上找
+   ```
+   - 构造器中的return意义变化：如果return对对象，则保留原意，如果return非对象或没有return语句，就返回this
+   ```js
+   var foo1 = function () {
+     this.name = "张三"
+     return {
+       name: "李四"
+     }
+   }
+   var foo2 = function () {
+     this.name = "张三"
+     return "李四"
+   }
+   var p1 = new foo1()
+   var p2 = new foo2()
+   console.log(p1.name) //李四
+   console.log(p2.name) //张三
+   ```
   
