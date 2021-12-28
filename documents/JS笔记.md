@@ -1092,3 +1092,87 @@ let o3 = Object.assign({}, {
 - 最平滑的动画最佳循环间隔为<code>1000ms/显示器刷新频率</code>(例：60Hz)
 - 会将每一帧中的所有DOM操作集中起来，在一次重绘或回流中就完成（**隐藏或不可见元素除外**），时间间隔紧跟浏览器刷新频率
 - 应用：渲染几万条数据不卡住界面
+  ```html
+  <!DOCTYPE html>
+  <head>
+    <title>render list</title>
+  </head>
+  <body>
+    <ul></ul>
+    <script>
+      setTimeout(() => {
+        const total = 55055 //数据长度
+        const size = 10 // 每次插入的条数
+        const count = Math.ceil(total/size) //需要操作的次数
+        const ul = document.getElementsByTagName("ul")[0]
+        let cur = 0 // 当前已渲染次数
+        function add () {
+          let fragment = document.createDocumentFragment()
+          for (let i = 0; i < size; i++) {
+            const li = document.createElement("li")
+            li.innerText = "当前是第"+ (cur * size + (i + 1)) +"条"
+            fragment.appendChild(li)
+          }
+          ul.appendChild(fragment)
+          cur += 1
+          loop()
+        }
+        function loop () {
+          if (cur < count) {
+            window.requestAnimationFrame(add)
+          }
+        }
+        loop()
+      }, 0)
+    </script>
+  </body>
+  </html>
+  ```
+  
+---
+### Javascript内存泄漏
+应用不再需要的内存未得到释放
+1. 全局变量造成
+   ```js
+      function foo () {
+        a = "this is gloabl variable" //未声明
+        window.b = "global" //设置为全局变量window的属性
+        this.c = "global" //挂载到全局变量属性上
+      }
+   ```
+   - 使用严格模式避免意外创建全局变量，减少使用全局变量
+   - 使用全局变量时确保在处理完数据放置null或重新分配
+2. 忘记释放计时器
+3. 多处引用：多个变量引用同一个对象，或对table中的某个Cell引用也将导致table保存在内存中
+   ```js
+   let elements = {
+     button: document.getElementById("button")
+   }
+   function doStuff () {
+     button.click()
+   }
+   function removeButton () {
+     document.body.removeChild(document.getElementById("button"))
+   }
+   //#button被两个变量引用，一个是elements，一个在DOM树中，回收时需要将两个引用都释放
+   //removeButton仅仅释放了DOM中的button引用，elements仍保持引用，所以button不会被垃圾回收
+   ```
+4. 闭包：即使作用域已经结束，仍访问定义在作用域内的变量，所以具有记忆周围环境(context)的功能
+   ```js
+   let newElem
+   function outer () {
+     let someText = new Array(1000000)
+     let elem = newElem 
+     function inner () { //闭包inner
+       if (elem) return someText
+     }
+     return function () {} //闭包匿名函数，被返回并赋值给newElem
+     //相同父作域的闭包能共享context， 所以someText和elem被inner()和匿名函数共享
+   }
+   setInterval(function() {
+     newElem = outer() //只要newElem还引用匿名函数，则someText和elem就不会被垃圾回收
+   }, 10)
+   //outer()执行了elem = newElem, newElem会引用上一次调用的匿名函数，即第n次调用outer()会保持第n-1次调用的匿名函数
+   //解决: 计时器中的函数改为 newElem = outer()()
+   ```
+5. console.log(): 打印这部份对象的内存不会被回收
