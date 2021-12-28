@@ -684,17 +684,7 @@ setInterval是将事件放在任务队列中，当空闲时才取事件执行，
     - cookie: 生命周期只存在于设置的过期时间之前，即使窗口或浏览器关闭。存放数据大小限制（浏览器限制），不能储存大数据且不易读取。
 - vue作为SPA在一个页面上跳转路由，sessionStorage较为合适
     - sessionStorage可以保证打开页面时sessionStorage数据为空
-
----
-### ➤ Promise及其状态
-- 表示一个**异步操作**的最终完成 (或失败)及其结果值
-- 状态：
-  - pending: 初始状态
-  - fulfilled：操作成功完成
-  - reject：操作失败
-- fulfilled + reject = settled
-- Promise.resolve(fulfilled)静态方法
-
+    
 ---
 ### indexedDB
 - 异步操作（同步操作曾用于web workers，现已从规范中移除）
@@ -794,9 +784,45 @@ setInterval是将事件放在任务队列中，当空闲时才取事件执行，
 
 ---
 ### 宏任务和微任务
-- 宏任务：常见定时器，用户交互事件等
-- 微任务：Promise相关，MutationObserver等
+- 宏任务：
+  - 常见定时器<code>setTimeout</code>, <code>setInterval</code>, <code>setImmediate</code>
+  - 用户交互事件<code>I/O</code>, [requestAnimationFrame](#requestAnimationFrame)
+  - 整体代码<code>script</code>
+- 微任务：
+  - 原生Promise相关: <code>Promise.then</code>, <code>Promise.catch</code>, <code>Promise.finally</code>
+  - MutationObserver
+  - process.nextTick
 - 同一层级下，微任务先于宏任务执行，如<code>Promise.then</code>先于<code>setTimeout</code>
+  - 例1
+    1. 整个js是一个宏任务，按顺序执行，先打印1
+    2. 向下，setTimeout是宏任务，此时放入宏任务队列
+    3. 向下, 执行promise中的代码，打印3
+    4. 到resolve函数，将promise状态变为resolve, 并保存结果
+    5. 向下，promise.then是微任务，放入微任务队列
+    6. 向下，打印5
+    7. 执行微任务，then打印4
+    8. 执行resolve，浏览器表现为undefined
+    9. 微任务执行完成，执行宏任务setTimeout，输出2
+```js
+console.log(1)
+setTimeout(() => {
+  console.log(2)
+}, 0)
+new Promise((resolve) => {
+  console.log(3)
+  resolve()
+}).then(() => {
+  console.log(4)
+})
+console.log(5)
+//输出顺序
+//1
+//3
+//5
+//4
+//因浏览器机制devtools可能会出现undefined
+//2
+```
 
 ---
 ### async/await原理
@@ -823,50 +849,6 @@ let o3 = Object.assign({}, {
 
 ```
 
----
-### Promise中断
-- Promise本质上是无法被终止的
-- 通过<code>Promise.race()</code>使其中一个promise reject的情况，无视另外的promise的结果去达到中断的目的
-  ```typescript
-  interface CancellablePromiseFactory<T = unknown> extends Promise<T> {
-    abort?: (reasonToAbort: any) => void 
-  }
-  function cancellablePromiseFactory (executor) {
-    let abort //中断方法
-    const originPromise = new Promise(executor) //原始promise实例
-    const promiseToAbort = new Promise(
-      (_, reject) => (abort = reasonToAbort => reject(reasonToAbort)) // reject的值给abort
-    )
-    const cancellablePromise: CancellablePromiseFactory = Promise.race([
-      originPromise,
-      promiseToAbort
-    ])
-    cancellablePromise.abort = abort //将abort挂载到cancellablePromise上
-    return cancellablePromise
-  }
-  const cancellablePromise = cancellablePromiseFactory((resolve, reject) => {
-    setTimeout(() => {
-      console.log("after 10s")
-      resolve("resolve after 10s")
-    }, 10000)
-    setTimeout(() => {
-      console.log("after 11s")
-      reject("reject after 11s")
-    }, 11000)
-  })
-  cancellablePromise.then(console.log).catch(console.log).finally(() => {
-    console.log("finally")
-  })
-  setTimeout(() => {
-    cancellablePromise.abort("abort after 2s")
-  }, 20000)
-  //结果
-  //abort after 2s
-  //finally
-  //after 10s
-
-  ```
-  
 ---
 ### 函数调用方式
 1. 一般形式的函数调用: **this表示全局对象window**
@@ -1029,3 +1011,84 @@ let o3 = Object.assign({}, {
   - websocket: 保证websocket会话的唯一性-建立链接的url加时间戳
   - nginx
   - http-proxy
+
+---
+### Promise相关
+- Promise及其状态
+  - 表示一个**异步操作**的最终完成 (或失败)及其结果值
+  - 状态：
+      - pending: 初始状态
+      - fulfilled：操作成功完成
+      - reject：操作失败
+  - fulfilled + reject = settled
+  - Promise.resolve(fulfilled)静态方法
+- Promise中断
+  - Promise本质上是无法被终止的
+  - 通过<code>Promise.race()</code>使其中一个promise reject的情况，无视另外的promise的结果去达到中断的目的
+    ```typescript
+    interface CancellablePromiseFactory<T = unknown> extends Promise<T> {
+      abort?: (reasonToAbort: any) => void 
+    }
+    function cancellablePromiseFactory (executor) {
+      let abort //中断方法
+      const originPromise = new Promise(executor) //原始promise实例
+      const promiseToAbort = new Promise(
+        (_, reject) => (abort = reasonToAbort => reject(reasonToAbort)) // reject的值给abort
+      )
+      const cancellablePromise: CancellablePromiseFactory = Promise.race([
+        originPromise,
+        promiseToAbort
+      ])
+      cancellablePromise.abort = abort //将abort挂载到cancellablePromise上
+      return cancellablePromise
+    }
+    const cancellablePromise = cancellablePromiseFactory((resolve, reject) => {
+      setTimeout(() => {
+        console.log("after 10s")
+        resolve("resolve after 10s")
+      }, 10000)
+      setTimeout(() => {
+        console.log("after 11s")
+        reject("reject after 11s")
+      }, 11000)
+    })
+    cancellablePromise.then(console.log).catch(console.log).finally(() => {
+      console.log("finally")
+    })
+    setTimeout(() => {
+      cancellablePromise.abort("abort after 2s")
+    }, 20000)
+    //结果
+    //abort after 2s
+    //finally
+    //after 10s
+
+    ```
+- 实现Promise.all()
+  ```js
+  Promise.myAll = promises => {
+    return new Promise ((resolve, reject) => {
+      let count = 0 //计数器
+      let result = [] //结果存放
+      const len = promises.length
+      if (len === 0) {
+        return resolve([])
+      }
+      promises.forEach((p, i) => { //可能有非promise的项，需转化一下
+        Promise.resolve(p).then(res => {
+          count += 1
+          result[i] = res 
+          if (count === len) {
+            resolve(result)
+          }
+        }).catch(reject)
+      })
+    })
+  }
+  ```
+  
+---
+### <span id="requestAnimationFrame">window.requestAnimationFrame使用</span>
+- 最平滑的动画最佳循环间隔为<code>1000ms/显示器刷新频率</code>(例：60Hz)
+- 会将每一帧中的所有DOM操作集中起来，在一次重绘或回流中就完成（**隐藏或不可见元素除外**），时间间隔紧跟浏览器刷新频率
+- 应用：渲染几万条数据不卡住界面
