@@ -1176,3 +1176,8 @@ let o3 = Object.assign({}, {
    //解决: 计时器中的函数改为 newElem = outer()()
    ```
 5. console.log(): 打印这部份对象的内存不会被回收
+
+---
+### window.onload vs DOMContentLoaded
+- window.onload: 文档中所有对象在DOM中，图片，脚本，链接及子框架都完成装载
+- DOMContentLoaded：初始HTML文件被完全加载和解析完成后触发，不需等待样式图像等完全加载
